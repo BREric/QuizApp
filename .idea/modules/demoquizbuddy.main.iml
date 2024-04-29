@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="4">
+  <component name="FacetManager">
+    <facet type="jpa" name="JPA">
+      <configuration>
+        <setting name="validation-enabled" value="true" />
+        <setting name="provider-name" value="Hibernate" />
+        <datasource-mapping>
+          <factory-entry name="demoquizbuddy.main" value="f075ae87-cf9b-4067-8386-22c1b54d97fe" />
+          <factory-entry name="entityManagerFactory" value="005017a6-58a7-4ea6-9b3b-0b99c5afbf01" />
+        </datasource-mapping>
+        <naming-strategy-map />
+      </configuration>
+    </facet>
+  </component>
+</module>

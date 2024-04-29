@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JpaBuddyIdeaProjectConfig" ddlActionDbType="mysql" migrateIndexesAndConstraints="true">
+    <option name="defaultUnitInitialized" value="true" />
+    <option name="renamerInitialized" value="true" />
+    <option name="reverseEngineeringLastDbConnectionId" value="005017a6-58a7-4ea6-9b3b-0b99c5afbf01__PROYECTOB2" />
+    <option name="reLastEntityCreationPackage" value="src/main/java/co/org/uniquindio/quiz/modelo" />
+  </component>
+</project>
