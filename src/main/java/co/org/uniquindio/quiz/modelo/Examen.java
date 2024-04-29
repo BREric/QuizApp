@@ -1,12 +1,12 @@
 package co.org.uniquindio.quiz.modelo;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -17,8 +17,8 @@ import java.time.OffsetDateTime;
 @Table(name = "EXAMEN")
 public class Examen {
     @Id
-    @Column(name = "CODIGO_EXAMEN", nullable = false)
-    private Integer id;
+    @Column(name = "CODIGOEXAMEN", nullable = false)
+    private Long id;
 
     @Size(max = 30)
     @Column(name = "NOMBRE", length = 30)
@@ -28,29 +28,38 @@ public class Examen {
     @Column(name = "DESCRIPCION", length = 100)
     private String descripcion;
 
-    @Column(name = "TIEMPO_INICIO")
-    private LocalDate tiempoInicio;
+    @Column(name = "FECHA_HORA_INICIO")
+    private LocalDate fechaHoraInicio;
 
-    @Column(name = "TIEMPO_FIN")
-    private LocalDate tiempoFin;
+    @Column(name = "FECHA_HORA_FIN")
+    private LocalDate fechaHoraFin;
 
-    @Column(name = "TIEMPO")
-    private OffsetDateTime tiempo;
+    @Column(name = "TIEMPO_LIMITE")
+    private OffsetDateTime tiempoLimite;
 
-    @Column(name = "CANTIDAD_PREGUNTAS")
-    private Integer cantidadPreguntas;
+    @Column(name = "CANTPREGUNTAS")
+    private Long cantpreguntas;
 
-    @Column(name = "PESO_EXAMEN")
-    private Double pesoExamen;
+    @Column(name = "PESOEXAMEN")
+    private Double pesoexamen;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "CODIGO_TEMA_CONTENIDO", nullable = false)
-    private Tema codigoTemaContenido;
-
-    @Size(max = 1)
-    @Column(name = "ESTADO", length = 1)
+    @Size(max = 10)
+    @Column(name = "ESTADO", length = 10)
     private String estado;
+
+    @Size(max = 10)
+    @Column(name = "TIPO_SELECCION_PREGUNTAS", length = 10)
+    private String tipoSeleccionPreguntas;
+
+    @Size(max = 10)
+    @Column(name = "MOSTRAR_RESPUESTAS_CORRECTAS", length = 10)
+    private String mostrarRespuestasCorrectas;
+
+    @Size(max = 10)
+    @Column(name = "MOSTRAR_RETROALIMENTACION", length = 10)
+    private String mostrarRetroalimentacion;
+
+    @Column(name = "FECHA_HORA_CREACION")
+    private LocalDate fechaHoraCreacion;
 
 }
