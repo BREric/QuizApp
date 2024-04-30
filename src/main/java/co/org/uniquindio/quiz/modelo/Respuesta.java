@@ -20,7 +20,7 @@ public class Respuesta {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "EXAMEN_CODIGOEXAMEN", nullable = false)
-    private Examen examenCodigoexamen;
+    private Examan examenCodigoexamen;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

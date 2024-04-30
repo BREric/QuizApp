@@ -19,6 +19,12 @@ public class Tema {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
+    @JoinColumn(name = "UNIDAD_CODIGOUNIDAD", nullable = false)
+    private Unidad unidadCodigounidad;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "BANCO_PREGUNTAS_CODIGOBANCO", nullable = false)
     private BancoPregunta bancoPreguntasCodigobanco;
 

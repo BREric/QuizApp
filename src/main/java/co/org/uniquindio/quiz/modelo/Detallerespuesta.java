@@ -1,6 +1,7 @@
 package co.org.uniquindio.quiz.modelo;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +23,12 @@ public class Detallerespuesta {
     @Size(max = 500)
     @Column(name = "DESCRIPCION", length = 500)
     private String descripcion;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "RESPUESTA_CODIGORESPUESTA", nullable = false)
+    private Respuesta respuestaCodigorespuesta;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.RESTRICT)

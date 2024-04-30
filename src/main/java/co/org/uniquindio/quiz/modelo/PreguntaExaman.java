@@ -1,7 +1,6 @@
 package co.org.uniquindio.quiz.modelo;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
@@ -14,17 +13,20 @@ import java.time.Instant;
 @Entity
 @Table(name = "PREGUNTA_EXAMEN")
 public class PreguntaExaman {
-    @NotNull
+    @EmbeddedId
+    private PreguntaExamanId id;
+
+    @MapsId("preguntaCodigopregunta")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "PREGUNTA_CODIGOPREGUNTA", nullable = false)
     private Pregunta preguntaCodigopregunta;
 
-    @NotNull
+    @MapsId("examenCodigoexamen")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "EXAMEN_CODIGOEXAMEN", nullable = false)
-    private Examen examenCodigoexamen;
+    private Examan examenCodigoexamen;
 
     @Column(name = "PORCENTAJE_PREGUNTA")
     private Double porcentajePregunta;

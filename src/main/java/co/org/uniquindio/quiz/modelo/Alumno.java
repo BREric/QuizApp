@@ -1,11 +1,11 @@
 package co.org.uniquindio.quiz.modelo;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Getter
 @Setter
@@ -16,5 +16,10 @@ public class Alumno {
     @Column(name = "USUARIO_CODIGOUSUARIO", nullable = false)
     private Long id;
 
-    //TODO [JPA Buddy] generate columns from DB
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "USUARIO_CUENTA_CODIGO", nullable = false)
+    private Usuario usuarioCuentaCodigo;
+
 }

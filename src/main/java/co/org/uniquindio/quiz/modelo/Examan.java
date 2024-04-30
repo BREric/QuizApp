@@ -1,12 +1,12 @@
 package co.org.uniquindio.quiz.modelo;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -15,7 +15,7 @@ import java.time.OffsetDateTime;
 @Setter
 @Entity
 @Table(name = "EXAMEN")
-public class Examen {
+public class Examan {
     @Id
     @Column(name = "CODIGOEXAMEN", nullable = false)
     private Long id;
@@ -42,6 +42,12 @@ public class Examen {
 
     @Column(name = "PESOEXAMEN")
     private Double pesoexamen;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "TEMA_CODIGOCONTENIDO", nullable = false)
+    private Tema temaCodigocontenido;
 
     @Size(max = 10)
     @Column(name = "ESTADO", length = 10)

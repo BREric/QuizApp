@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,5 +17,8 @@ public class Curso {
     @Column(name = "CODIGOCURSO", nullable = false)
     private Long id;
 
-    //TODO [JPA Buddy] generate columns from DB
+    @Size(max = 10)
+    @Column(name = "NOMBRECURSO", length = 10)
+    private String nombrecurso;
+
 }
