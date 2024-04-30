@@ -74,14 +74,6 @@ CREATE TABLE examen (
 
 ALTER TABLE examen ADD CONSTRAINT examen_pk PRIMARY KEY ( codigoexamen );
 
-CREATE TABLE examen_configuracion (
-                                      codigo_examen      INTEGER NOT NULL,
-                                      cantidad_preguntas INTEGER,
-                                      fecha_hora_inicio  TIMESTAMP
-) PCTFREE 15 PCTUSED 70;
-
-ALTER TABLE examen_configuracion ADD CONSTRAINT examen_configuracion_pk PRIMARY KEY ( codigo_examen );
-
 CREATE TABLE grupo (
                        codigogrupo                   INTEGER NOT NULL,
                        curso_codigocurso             INTEGER NOT NULL,

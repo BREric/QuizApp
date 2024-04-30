@@ -2,7 +2,6 @@ package co.org.uniquindio.quiz.modelo;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
