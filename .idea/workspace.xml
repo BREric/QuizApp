@@ -5,12 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="406a4845-4603-4dec-bda2-6d61dd8838e3" name="Changes" comment="nueva version">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/demoquizbuddy.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/demoquizbuddy.main.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/ExamenConfiguracion.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/scripts/config.ddl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/scripts/config.ddl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/scripts/pb2v5.ddl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/scripts/pb2v5.ddl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseLocalColorSettings">
+    <colors>
+      <entry key="d8cedbf4-a01c-4db1-ad7c-5e87b3a28030" value="Gray" />
+    </colors>
   </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
@@ -127,7 +138,9 @@
       <workItem from="1714234042230" duration="1947000" />
       <workItem from="1714309574166" duration="15417000" />
       <workItem from="1714482065166" duration="700000" />
-      <workItem from="1714483428296" duration="320000" />
+      <workItem from="1714483428296" duration="1225000" />
+      <workItem from="1714523412555" duration="3279000" />
+      <workItem from="1714581676977" duration="9173000" />
     </task>
     <task id="LOCAL-00001" summary="nueva version">
       <option name="closed" value="true" />
@@ -137,7 +150,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714483538121</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="nueva version">
+      <option name="closed" value="true" />
+      <created>1714483757919</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1714483757919</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
