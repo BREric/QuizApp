@@ -7,7 +7,7 @@
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
           <factory-entry name="demoquizbuddy.main" value="f075ae87-cf9b-4067-8386-22c1b54d97fe" />
-          <factory-entry name="entityManagerFactory" value="1cf3fe19-bd70-478d-a743-b4fe74565d88" />
+          <factory-entry name="entityManagerFactory" value="d8cedbf4-a01c-4db1-ad7c-5e87b3a28030" />
         </datasource-mapping>
         <naming-strategy-map />
       </configuration>
