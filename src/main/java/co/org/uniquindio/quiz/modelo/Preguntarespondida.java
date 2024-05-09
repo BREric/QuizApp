@@ -18,18 +18,18 @@ public class Preguntarespondida {
     private Long id;
 
     @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "DR_CODIGOPREGUNTA", nullable = false)
+    private Detallerespuesta drCodigopregunta;
+
+    @NotNull
     @Column(name = "ISCORRECT", nullable = false)
     private Boolean iscorrect = false;
 
     @Size(max = 200)
     @Column(name = "RESPUESTAABIERTA", length = 200)
     private String respuestaabierta;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "DR_CODIGOPREGUNTA", nullable = false)
-    private Detallerespuesta drCodigopregunta;
 
     @Size(max = 20)
     @Column(name = "TIPO_PREGUNTA", length = 20)

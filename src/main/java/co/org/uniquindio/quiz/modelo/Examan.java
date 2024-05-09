@@ -20,13 +20,20 @@ public class Examan {
     @Column(name = "CODIGOEXAMEN", nullable = false)
     private Long id;
 
-    @Size(max = 30)
-    @Column(name = "NOMBRE", length = 30)
-    private String nombre;
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "TEMA_CODIGOCONTENIDO", nullable = false)
+    private Tema temaCodigocontenido;
 
-    @Size(max = 100)
-    @Column(name = "DESCRIPCION", length = 100)
-    private String descripcion;
+    @Column(name = "CANTPREGUNTAS")
+    private Long cantpreguntas;
+
+    @Column(name = "PESOEXAMEN")
+    private Double pesoexamen;
+
+    @Column(name = "FECHA_HORA_CREACION")
+    private LocalDate fechaHoraCreacion;
 
     @Column(name = "FECHA_HORA_INICIO")
     private LocalDate fechaHoraInicio;
@@ -36,18 +43,6 @@ public class Examan {
 
     @Column(name = "TIEMPO_LIMITE")
     private OffsetDateTime tiempoLimite;
-
-    @Column(name = "CANTPREGUNTAS")
-    private Long cantpreguntas;
-
-    @Column(name = "PESOEXAMEN")
-    private Double pesoexamen;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "TEMA_CODIGOCONTENIDO", nullable = false)
-    private Tema temaCodigocontenido;
 
     @Size(max = 10)
     @Column(name = "ESTADO", length = 10)
@@ -65,7 +60,12 @@ public class Examan {
     @Column(name = "MOSTRAR_RETROALIMENTACION", length = 10)
     private String mostrarRetroalimentacion;
 
-    @Column(name = "FECHA_HORA_CREACION")
-    private LocalDate fechaHoraCreacion;
+    @Size(max = 30)
+    @Column(name = "NOMBRE", length = 30)
+    private String nombre;
+
+    @Size(max = 100)
+    @Column(name = "DESCRIPCION", length = 100)
+    private String descripcion;
 
 }

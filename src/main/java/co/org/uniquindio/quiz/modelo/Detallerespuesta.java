@@ -17,13 +17,6 @@ public class Detallerespuesta {
     @Column(name = "CODIGOPREGUNTA", nullable = false)
     private Long id;
 
-    @Column(name = "PREGUNTA_CODIGOPREGUNTA")
-    private Long preguntaCodigopregunta;
-
-    @Size(max = 500)
-    @Column(name = "DESCRIPCION", length = 500)
-    private String descripcion;
-
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -34,5 +27,12 @@ public class Detallerespuesta {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "DR_CODIGOPREGUNTA")
     private Detallerespuesta drCodigopregunta;
+
+    @Column(name = "PREGUNTA_CODIGOPREGUNTA")
+    private Long preguntaCodigopregunta;
+
+    @Size(max = 500)
+    @Column(name = "DESCRIPCION", length = 500)
+    private String descripcion;
 
 }

@@ -17,13 +17,13 @@ public class OpcionesPregunta {
     private Long id;
 
     @NotNull
-    @Column(name = "ISCORRECT", nullable = false)
-    private Boolean iscorrect = false;
-
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "PREGUNTA_CODIGOPREGUNTA", nullable = false)
     private Pregunta preguntaCodigopregunta;
+
+    @NotNull
+    @Column(name = "ISCORRECT", nullable = false)
+    private Boolean iscorrect = false;
 
 }
