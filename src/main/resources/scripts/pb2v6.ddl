@@ -161,7 +161,7 @@ ALTER TABLE pregunta_examen ADD CONSTRAINT pregunta_examen_pk PRIMARY KEY ( exam
 CREATE TABLE tema (
                       codigocontenido             INTEGER NOT NULL,
                       unidad_codigounidad         INTEGER NOT NULL,
-                      banco_preguntas_codigobanco INTEGER NOT NULL
+                      nombre                      VARCHAR2(50)
 )
     PCTFREE 15 PCTUSED 70 LOGGING
     STORAGE ( PCTINCREASE 0 MINEXTENTS 1 MAXEXTENTS UNLIMITED FREELISTS 1 FREELIST GROUPS 1 BUFFER_POOL DEFAULT );

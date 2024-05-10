@@ -4,23 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="406a4845-4603-4dec-bda2-6d61dd8838e3" name="Changes" comment="nueva version2">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/scripts/pl.ddl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jpa-buddy.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jpa-buddy.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+    <list default="true" id="406a4845-4603-4dec-bda2-6d61dd8838e3" name="Changes" comment="nueva version3">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/BancoPregunta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/BancoPregunta.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Detallerespuesta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Detallerespuesta.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Examan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Examan.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/OpcionesPregunta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/OpcionesPregunta.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Pregunta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Pregunta.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Preguntarespondida.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Preguntarespondida.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/repositorios/CuentaRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/repositorios/CuentaRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/scripts/config.ddl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/scripts/config.ddl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/scripts/drop.ddl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/scripts/drop.ddl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/scripts/pb2v5.ddl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/scripts/pb2v6.ddl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/scripts/pb2v6.ddl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/scripts/pb2v6.ddl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/scripts/vistas.ddl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/scripts/vistas.ddl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -161,6 +149,10 @@
       <workItem from="1715084145514" duration="806000" />
       <workItem from="1715093712359" duration="607000" />
       <workItem from="1715134544132" duration="4203000" />
+      <workItem from="1715264869344" duration="779000" />
+      <workItem from="1715294165501" duration="5166000" />
+      <workItem from="1715312709493" duration="42000" />
+      <workItem from="1715316698416" duration="608000" />
     </task>
     <task id="LOCAL-00001" summary="nueva version">
       <option name="closed" value="true" />
@@ -194,7 +186,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714679955019</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="nueva version3">
+      <option name="closed" value="true" />
+      <created>1715264943896</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1715264943897</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -214,7 +214,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="nueva version" />
     <MESSAGE value="nueva version2" />
-    <option name="LAST_COMMIT_MESSAGE" value="nueva version2" />
+    <MESSAGE value="nueva version3" />
+    <option name="LAST_COMMIT_MESSAGE" value="nueva version3" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
