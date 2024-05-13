@@ -7,13 +7,15 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @Entity
-@Table(name = "RESPUESTA")
-public class Respuesta {
+@Table(name = "PARCIAL_PRESENTADO")
+public class ParcialPresentado {
     @Id
-    @Column(name = "CODIGORESPUESTA", nullable = false)
+    @Column(name = "CODIGOPP", nullable = false)
     private Long id;
 
     @NotNull
@@ -30,5 +32,14 @@ public class Respuesta {
 
     @Column(name = "PUNTAJE_OBTENIDO")
     private Double puntajeObtenido;
+
+    @Column(name = "FECHA_HORA_INICIO")
+    private LocalDate fechaHoraInicio;
+
+    @Column(name = "FECHA_HORA_FIN")
+    private LocalDate fechaHoraFin;
+
+    @Column(name = "TIEMPO_DURACION")
+    private LocalDate tiempoDuracion;
 
 }

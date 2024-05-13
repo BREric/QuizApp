@@ -2,6 +2,7 @@ package co.org.uniquindio.quiz.modelo;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
@@ -22,8 +23,14 @@ public class OpcionesPregunta {
     @JoinColumn(name = "PREGUNTA_CODIGOPREGUNTA", nullable = false)
     private Pregunta preguntaCodigopregunta;
 
+    @Size(max = 30)
     @NotNull
-    @Column(name = "ISCORRECT", nullable = false)
-    private Boolean iscorrect = false;
+    @Column(name = "RESPUESTA", nullable = false, length = 30)
+    private String respuesta;
+
+    @Size(max = 500)
+    @NotNull
+    @Column(name = "OPCION", nullable = false, length = 500)
+    private String opcion;
 
 }

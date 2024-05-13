@@ -45,3 +45,48 @@ BEGIN
     :NEW.fecha_hora_inicio := SYSDATE;
 END;
 /
+
+CREATE OR REPLACE TRIGGER calcular_puntaje_parcial
+    BEFORE INSERT ON parcial_presentado
+    FOR EACH ROW
+DECLARE
+    v_preguntas_totales INTEGER;
+    v_respuestas_correctas INTEGER;
+    v_respuestas_estudiante INTEGER;
+    v_puntaje FLOAT;
+BEGIN
+    -- Obtener el total de preguntas del examen
+    SELECT COUNT(*) INTO v_preguntas_totales
+    FROM pregunta_examen pe
+    WHERE pe.examen_codigoexamen = :NEW.examen_codigoexamen;
+
+    -- Obtener el número de respuestas correctas proporcionadas por el estudiante
+    SELECT COUNT(DISTINCT op.codigoopcion) INTO v_respuestas_correctas
+    FROM opciones_pregunta op
+             JOIN pregunta_examen pe ON op.pregunta_codigopregunta = pe.pregunta_codigopregunta
+    WHERE pe.examen_codigoexamen = :NEW.examen_codigoexamen
+      AND op.codigoopcion IN (
+        SELECT po.codigoopcion
+        FROM opciones_pregunta po
+        WHERE po.p_a_a_usuario_codigousuario = :NEW.alumno_usuario_codigousuario
+          AND po.p_p_p_e_e_codigoexamen = :NEW.examen_codigoexamen
+    );
+
+    -- Obtener el número total de respuestas proporcionadas por el estudiante
+    SELECT COUNT(*) INTO v_respuestas_estudiante
+    FROM opciones_pregunta po
+    WHERE po.p_a_a_usuario_codigousuario = :NEW.alumno_usuario_codigousuario
+      AND po.p_p_p_e_e_codigoexamen = :NEW.examen_codigoexamen;
+
+    -- Calcular el puntaje obtenido en base a las respuestas correctas
+    IF v_respuestas_estudiante > 0 THEN
+        v_puntaje := (v_respuestas_correctas / v_respuestas_estudiante) * 100;
+    ELSE
+        v_puntaje := 0; -- En caso de que no haya respondido ninguna pregunta
+    END IF;
+
+    -- Asignar el puntaje calculado al campo puntaje_obtenido
+    :NEW.puntaje_obtenido := v_puntaje;
+END;
+/
+/

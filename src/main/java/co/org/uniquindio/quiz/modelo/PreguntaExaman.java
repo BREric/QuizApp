@@ -6,7 +6,7 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.time.Instant;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -32,6 +32,9 @@ public class PreguntaExaman {
     private Double porcentajePregunta;
 
     @Column(name = "TIEMPO_MAXIMO_PREGUNTA")
-    private Instant tiempoMaximoPregunta;
+    private LocalDate tiempoMaximoPregunta;
+
+    @Column(name = "HORA_PRESENTACION_PREGUNTA")
+    private LocalDate horaPresentacionPregunta;
 
 }

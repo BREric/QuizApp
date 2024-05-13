@@ -17,12 +17,6 @@ public class Pregunta {
     @Column(name = "CODIGOPREGUNTA", nullable = false)
     private Long id;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "BANCO_PREGUNTAS_CODIGOBANCO", nullable = false)
-    private BancoPregunta bancoPreguntasCodigobanco;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "PREGUNTA_CODIGOPREGUNTA")
@@ -43,5 +37,17 @@ public class Pregunta {
     @Size(max = 500)
     @Column(name = "DESCRIPCION", length = 500)
     private String descripcion;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @JoinColumn(name = "DOCENTE_USUARIO_CODIGOUSUARIO", nullable = false)
+    private Docente docenteUsuarioCodigousuario;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @JoinColumn(name = "TEMA_CODIGOCONTENIDO", nullable = false)
+    private Tema temaCodigocontenido;
 
 }

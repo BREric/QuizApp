@@ -68,4 +68,7 @@ public class Examan {
     @Column(name = "DESCRIPCION", length = 100)
     private String descripcion;
 
+    @Column(name = "CANTPREGUNTASALUMNO")
+    private Long cantpreguntasalumno;
+
 }
