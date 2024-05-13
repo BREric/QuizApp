@@ -1,5 +1,5 @@
 -- Generado por Oracle SQL Developer Data Modeler 23.1.0.087.0806
---   en:        2024-05-12 11:50:59 COT
+--   en:        2024-05-12 21:42:15 COT
 --   sitio:      Oracle Database 11g
 --   tipo:      Oracle Database 11g
 
@@ -117,8 +117,10 @@ CREATE TABLE pregunta_alumno (
                                  parcial_presentado_codigopp INTEGER NOT NULL
 );
 
-ALTER TABLE pregunta_alumno ADD CONSTRAINT pregunta_parcial_pk PRIMARY KEY ( pe_examen_codigoexamen,
-                                                                             pe_pregunta_codigopregunta );
+ALTER TABLE pregunta_alumno
+    ADD CONSTRAINT pregunta_alumno_pk PRIMARY KEY ( pe_examen_codigoexamen,
+                                                    pe_pregunta_codigopregunta,
+                                                    parcial_presentado_codigopp );
 
 CREATE TABLE pregunta_examen (
                                  pregunta_codigopregunta    INTEGER NOT NULL,
@@ -132,10 +134,11 @@ ALTER TABLE pregunta_examen ADD CONSTRAINT pregunta_examen_pk PRIMARY KEY ( exam
                                                                             pregunta_codigopregunta );
 
 CREATE TABLE respuesta_alumno (
-                                  id_respuesta                  INTEGER NOT NULL,
-                                  respuesta                     VARCHAR2(500) NOT NULL,
-                                  pa_pe_examen_codigoexamen     INTEGER NOT NULL,
-                                  pa_pe_pregunta_codigopregunta INTEGER NOT NULL
+                                  id_respuesta         INTEGER NOT NULL,
+                                  respuesta            VARCHAR2(500) NOT NULL,
+                                  pa_pe_codigoexamen   INTEGER NOT NULL,
+                                  pa_pe_codigopregunta INTEGER NOT NULL,
+                                  pa_codigopp          INTEGER NOT NULL
 );
 
 ALTER TABLE respuesta_alumno ADD CONSTRAINT respuesta_alumno_pk PRIMARY KEY ( id_respuesta );
@@ -213,6 +216,14 @@ ALTER TABLE pregunta_alumno
     ADD CONSTRAINT pa_parcial_presentado_fk FOREIGN KEY ( parcial_presentado_codigopp )
         REFERENCES parcial_presentado ( codigopp );
 
+ALTER TABLE parcial_presentado
+    ADD CONSTRAINT parcial_presentado_alumno_fk FOREIGN KEY ( alumno_usuario_codigousuario )
+        REFERENCES alumno ( usuario_codigousuario );
+
+ALTER TABLE parcial_presentado
+    ADD CONSTRAINT parcial_presentado_examen_fk FOREIGN KEY ( examen_codigoexamen )
+        REFERENCES examen ( codigoexamen );
+
 ALTER TABLE pregunta
     ADD CONSTRAINT pregunta_docente_fk FOREIGN KEY ( docente_usuario_codigousuario )
         REFERENCES docente ( usuario_codigousuario );
@@ -234,18 +245,12 @@ ALTER TABLE pregunta
         REFERENCES tema ( codigocontenido );
 
 ALTER TABLE respuesta_alumno
-    ADD CONSTRAINT ra_pa_fk FOREIGN KEY ( pa_pe_examen_codigoexamen,
-                                          pa_pe_pregunta_codigopregunta )
+    ADD CONSTRAINT ra_pregunta_alumno_fk FOREIGN KEY ( pa_pe_codigoexamen,
+                                                       pa_pe_codigopregunta,
+                                                       pa_codigopp )
         REFERENCES pregunta_alumno ( pe_examen_codigoexamen,
-                                     pe_pregunta_codigopregunta );
-
-ALTER TABLE parcial_presentado
-    ADD CONSTRAINT respuesta_alumno_fk FOREIGN KEY ( alumno_usuario_codigousuario )
-        REFERENCES alumno ( usuario_codigousuario );
-
-ALTER TABLE parcial_presentado
-    ADD CONSTRAINT respuesta_examen_fk FOREIGN KEY ( examen_codigoexamen )
-        REFERENCES examen ( codigoexamen );
+                                     pe_pregunta_codigopregunta,
+                                     parcial_presentado_codigopp );
 
 ALTER TABLE tema
     ADD CONSTRAINT tema_unidad_fk FOREIGN KEY ( unidad_codigounidad )
