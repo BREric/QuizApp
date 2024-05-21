@@ -4,7 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="406a4845-4603-4dec-bda2-6d61dd8838e3" name="Changes" comment="nueva version4" />
+    <list default="true" id="406a4845-4603-4dec-bda2-6d61dd8838e3" name="Changes" comment="nueva version4">
+      <change afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/dto/MensajeDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/utils/FiltroToken.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/utils/JWTUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.7/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.7/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/checksums/md5-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.7/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jpa-buddy.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jpa-buddy.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/DemoquizbuddyApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/DemoquizbuddyApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Examan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Examen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/ParcialPresentado.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/ParcialPresentado.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/PreguntaExaman.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/PreguntaExaman.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/repositorios/AlumnoRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/repositorios/AlumnoRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/repositorios/CuentaRepo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/repositorios/DocenteRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/repositorios/DocenteRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/repositorios/ExamenRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/repositorios/ExamenRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/scripts/pl.ddl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/scripts/pl.ddl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/scripts/vistas.ddl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/scripts/vistas.ddl" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,24 +57,26 @@
       <list>
         <option value="Interface" />
         <option value="com.haulmont.jpb.JpaEntity" />
+        <option value="Class" />
+        <option value="Record" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "JhonatanGV03"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;JhonatanGV03&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/BREric/QuizApp.git",
-    "accountId": "fc097a46-ad8a-4f90-ad1b-f78bcde582ed"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/BREric/QuizApp.git&quot;,
+    &quot;accountId&quot;: &quot;fc097a46-ad8a-4f90-ad1b-f78bcde582ed&quot;
   }
-}]]></component>
+}</component>
   <component name="JpbToolWindowState">
     <option name="isToolWindowVisible" value="false" />
   </component>
@@ -78,14 +105,14 @@
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/luzye/IdeaProjects/demoquizbuddy",
+    "last_opened_file_path": "C:/Users/luzye/IdeaProjects/proyectoBases",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.pluginManager",
-    "spring.configuration.checksum": "d7b834f8af48b052210017f5a0047315",
+    "spring.configuration.checksum": "df28d1b817269699575ab3cdacb526e6",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -99,7 +126,7 @@
 }]]></component>
   <component name="RunManager" selected="Spring Boot.DemoquizbuddyApplication (1)">
     <configuration name="DemoquizbuddyApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
-      <module name="demoquizbuddy.main" />
+      <module name="com.example.demoquizbuddy.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="co.org.uniquindio.quiz.DemoquizbuddyApplication" />
       <extension name="coverage">
         <pattern>
@@ -179,6 +206,17 @@
       <workItem from="1715548601909" duration="1054000" />
       <workItem from="1715560470652" duration="2212000" />
       <workItem from="1715572406685" duration="75000" />
+      <workItem from="1715606947295" duration="8958000" />
+      <workItem from="1715690448153" duration="1142000" />
+      <workItem from="1715707084703" duration="37000" />
+      <workItem from="1715743373267" duration="18000" />
+      <workItem from="1715800691389" duration="60000" />
+      <workItem from="1715831238323" duration="674000" />
+      <workItem from="1715895240525" duration="656000" />
+      <workItem from="1715919605124" duration="2060000" />
+      <workItem from="1715949685438" duration="812000" />
+      <workItem from="1716038451113" duration="21000" />
+      <workItem from="1716296970882" duration="677000" />
     </task>
     <task id="LOCAL-00001" summary="nueva version">
       <option name="closed" value="true" />
@@ -257,7 +295,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/DemoquizbuddyApplication.java</url>
-          <line>6</line>
+          <line>7</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

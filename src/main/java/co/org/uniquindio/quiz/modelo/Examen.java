@@ -15,7 +15,7 @@ import java.time.OffsetDateTime;
 @Setter
 @Entity
 @Table(name = "EXAMEN")
-public class Examan {
+public class Examen {
     @Id
     @Column(name = "CODIGOEXAMEN", nullable = false)
     private Long id;

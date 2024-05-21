@@ -86,9 +86,11 @@ FROM parcial_presentado pp
 GROUP BY a.usuario_codigousuario, u.nombre, u.email, u.cedula);
 
 CREATE OR REPLACE VIEW VW_DOCENTES AS(
-    SELECT C.CODIGOCUENTA,
-           C.email, U.cedula,
-           U.nombre
+    SELECT C.CODIGOCUENTA idDocente,
+           C.email correo,
+           C.password passwordcuenta,
+           U.cedula ceduladocente,
+           U.nombre nombredocente
     FROM CUENTA c JOIN USUARIO u
            ON c.codigoCuenta=u.cuenta_codigocuenta
            JOIN DOCENTE D on d.usuario_codigousuario=u.cuenta_codigocuenta);
@@ -96,9 +98,11 @@ CREATE OR REPLACE VIEW VW_DOCENTES AS(
 
 
 CREATE OR REPLACE VIEW VW_ALUMNOS AS(
-    SELECT C.CODIGOCUENTA,
-        C.email,U.cedula,
-        U.nombre
+    SELECT C.CODIGOCUENTA idAlumno,
+        C.email correo,
+        C.password passwordcuenta,
+        U.cedula cedulaalumno,
+        U.nombre nombrealumno
     FROM CUENTA c JOIN USUARIO u
        ON c.codigoCuenta=u.cuenta_codigocuenta
        JOIN ALUMNO a on a.usuario_codigousuario=u.cuenta_codigocuenta);

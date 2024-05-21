@@ -22,7 +22,7 @@ public class ParcialPresentado {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "EXAMEN_CODIGOEXAMEN", nullable = false)
-    private Examan examenCodigoexamen;
+    private Examen examenCodigoexamen;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

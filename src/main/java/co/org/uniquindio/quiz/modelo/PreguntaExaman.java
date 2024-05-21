@@ -26,7 +26,7 @@ public class PreguntaExaman {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "EXAMEN_CODIGOEXAMEN", nullable = false)
-    private Examan examenCodigoexamen;
+    private Examen examenCodigoexamen;
 
     @Column(name = "PORCENTAJE_PREGUNTA")
     private Double porcentajePregunta;

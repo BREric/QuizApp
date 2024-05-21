@@ -89,4 +89,93 @@ BEGIN
     :NEW.puntaje_obtenido := v_puntaje;
 END;
 /
+
+CREATE OR REPLACE TRIGGER trg_validar_password
+    BEFORE INSERT OR UPDATE ON cuenta
+    FOR EACH ROW
+DECLARE
+    v_old_password cuenta.password%TYPE;
+BEGIN
+    IF :NEW.password IS NULL THEN
+        RAISE_APPLICATION_ERROR(-20001, 'La contraseña no puede estar vacía.');
+    END IF;
+
+    SELECT password INTO v_old_password
+    FROM cuenta
+    WHERE codigocuenta = :NEW.codigocuenta;
+
+    IF :NEW.password = v_old_password THEN
+        RAISE_APPLICATION_ERROR(-20002, 'La nueva contraseña no puede ser igual a la anterior.');
+    END IF;
+
+END;
 /
+
+CREATE OR REPLACE TRIGGER trg_validar_correo_y_cedula
+    BEFORE INSERT OR UPDATE ON cuenta
+    FOR EACH ROW
+DECLARE
+    v_correo_existente NUMBER;
+    v_cedula_existente NUMBER;
+BEGIN
+    SELECT COUNT(*)
+    INTO v_correo_existente
+    FROM cuenta
+    WHERE email = :NEW.email;
+
+    IF v_correo_existente > 0 THEN
+        RAISE_APPLICATION_ERROR(-20003, 'El correo electrónico ya está registrado.');
+    END IF;
+
+    SELECT COUNT(*)
+    INTO v_cedula_existente
+    FROM usuario
+    WHERE cedula = :NEW.cedula;
+
+    IF v_cedula_existente > 0 THEN
+        RAISE_APPLICATION_ERROR(-20004, 'La cédula ya está registrada.');
+    END IF;
+END;
+/
+
+CREATE OR REPLACE TRIGGER trg_crear_docente
+    INSTEAD OF INSERT ON VW_DOCENTES
+    FOR EACH ROW
+DECLARE
+    v_usuario_codigocuenta INTEGER;
+    v_usuario_cuenta_codigocuenta INTEGER;
+BEGIN
+    INSERT INTO cuenta (codigocuenta, email, password, estado)
+    VALUES (:NEW.idDocente, :NEW.correo, :NEW.passwordcuenta, 'Activo')
+    RETURNING codigocuenta INTO v_usuario_codigocuenta;
+
+    INSERT INTO usuario (cuenta_codigocuenta, cedula, nombre)
+    VALUES (v_usuario_codigocuenta, :NEW.ceduladocente, :NEW.nombredocente);
+
+    INSERT INTO docente (usuario_codigousuario, usuario_cuenta_codigo)
+    VALUES (:NEW.idDocente, v_usuario_codigocuenta);
+END;
+/
+
+CREATE OR REPLACE TRIGGER trg_crear_alumno
+    INSTEAD OF INSERT ON VW_ALUMNOS
+    FOR EACH ROW
+DECLARE
+    v_usuario_codigocuenta INTEGER;
+    v_usuario_cuenta_codigocuenta INTEGER;
+BEGIN
+    INSERT INTO cuenta (codigocuenta, email, password, estado)
+    VALUES (:NEW.idAlumno, :NEW.correo, :NEW.passwordcuenta, 'Activo')
+    RETURNING codigocuenta INTO v_usuario_codigocuenta;
+
+    -- Insertar en la tabla usuario
+    INSERT INTO usuario (cuenta_codigocuenta, cedula, nombre)
+    VALUES (v_usuario_codigocuenta, :NEW.cedulaalumno, :NEW.nombrealumno);
+
+    -- Insertar en la tabla alumno
+    INSERT INTO alumno (usuario_codigousuario, usuario_cuenta_codigo)
+    VALUES (:NEW.idAlumno, v_usuario_codigocuenta);
+END;
+/
+
+--------------------------------PROCEDIMIENTOS----------------------------------------------------------
