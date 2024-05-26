@@ -138,24 +138,7 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE TRIGGER trg_crear_docente
-    INSTEAD OF INSERT ON VW_DOCENTES
-    FOR EACH ROW
-DECLARE
-    v_usuario_codigocuenta INTEGER;
-    v_usuario_cuenta_codigocuenta INTEGER;
-BEGIN
-    INSERT INTO cuenta (codigocuenta, email, password, estado)
-    VALUES (:NEW.idDocente, :NEW.correo, :NEW.passwordcuenta, 'Activo')
-    RETURNING codigocuenta INTO v_usuario_codigocuenta;
-
-    INSERT INTO usuario (cuenta_codigocuenta, cedula, nombre)
-    VALUES (v_usuario_codigocuenta, :NEW.ceduladocente, :NEW.nombredocente);
-
-    INSERT INTO docente (usuario_codigousuario, usuario_cuenta_codigo)
-    VALUES (:NEW.idDocente, v_usuario_codigocuenta);
-END;
-/
+c
 
 CREATE OR REPLACE TRIGGER trg_crear_alumno
     INSTEAD OF INSERT ON VW_ALUMNOS
@@ -178,4 +161,178 @@ BEGIN
 END;
 /
 
+CREATE OR REPLACE TRIGGER trg_actualizar_alumnos
+    INSTEAD OF UPDATE ON VW_ALUMNOS
+    FOR EACH ROW
+BEGIN
+    -- Actualizar los datos en las tablas subyacentes
+    UPDATE CUENTA
+    SET email = :NEW.correo,
+        password = :NEW.passwordcuenta
+    WHERE CODIGOCUENTA = :OLD.idAlumno;
+
+    UPDATE USUARIO
+    SET nombre = :NEW.nombrealumno
+    WHERE cuenta_codigocuenta = :OLD.idAlumno;
+END;
+/
+
+CREATE OR REPLACE TRIGGER trg_update_vw_docentes
+    INSTEAD OF UPDATE ON VW_DOCENTES
+    FOR EACH ROW
+BEGIN
+    -- Actualizar la tabla CUENTA
+    UPDATE CUENTA
+    SET email = :new.correo,
+        password = :new.passwordcuenta
+    WHERE codigocuenta = :old.idDocente;
+
+    -- Actualizar la tabla USUARIO
+    UPDATE USUARIO
+    SET cedula = :new.ceduladocente,
+        nombre = :new.nombredocente
+    WHERE cuenta_codigocuenta = :old.idDocente;
+END;
+/
+
 --------------------------------PROCEDIMIENTOS----------------------------------------------------------
+
+
+
+CREATE OR REPLACE FUNCTION crear_alumno(
+    p_idAlumno          IN INTEGER,
+    p_correo            IN VARCHAR2,
+    p_passwordcuenta    IN VARCHAR2,
+    p_cedulaalumno      IN INTEGER,
+    p_nombrealumno      IN VARCHAR2
+) RETURN INTEGER IS
+BEGIN
+    -- Insertar en la vista VW_ALUMNOS
+    INSERT INTO VW_ALUMNOS (idAlumno, correo, passwordcuenta, cedulaalumno, nombrealumno)
+    VALUES (p_idAlumno, p_correo, p_passwordcuenta, p_cedulaalumno, p_nombrealumno);
+
+    -- Devolver el código del alumno creado
+    RETURN p_idAlumno;
+EXCEPTION
+    WHEN OTHERS THEN
+        -- Manejo de errores
+        RAISE_APPLICATION_ERROR(-20005, 'Error al crear el alumno: ' || SQLERRM);
+END;
+/
+
+CREATE OR REPLACE PROCEDURE actualizar_alumno(
+    p_idAlumno IN INTEGER,
+    p_correo IN VARCHAR2,
+    p_passwordcuenta IN VARCHAR2,
+    p_nombrealumno IN VARCHAR2
+) AS
+BEGIN
+    -- Actualizar la vista para activar el disparador INSTEAD OF
+    UPDATE VW_ALUMNOS
+    SET correo = p_correo,
+        passwordcuenta = p_passwordcuenta,
+        nombrealumno = p_nombrealumno
+    WHERE idAlumno = p_idAlumno;
+END;
+/
+
+CREATE OR REPLACE FUNCTION obtener_alumno(p_idAlumno IN INTEGER) RETURN SYS_REFCURSOR AS
+    v_alumno SYS_REFCURSOR;
+BEGIN
+    OPEN v_alumno FOR
+        SELECT * FROM VW_ALUMNOS WHERE idAlumno = p_idAlumno;
+    RETURN v_alumno;
+END;
+/
+
+CREATE OR REPLACE FUNCTION buscar_alumno(p_idAlumno IN INTEGER) RETURN SYS_REFCURSOR AS
+    v_alumno SYS_REFCURSOR;
+BEGIN
+    OPEN v_alumno FOR
+        SELECT * FROM VW_ALUMNOS WHERE idAlumno = p_idAlumno;
+    RETURN v_alumno;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE eliminar_alumno(p_idAlumno IN INTEGER) AS
+BEGIN
+    UPDATE CUENTA
+    SET estado = 'INACTIVO'
+    WHERE CODIGOCUENTA = p_idAlumno;
+END;
+/
+
+CREATE OR REPLACE FUNCTION listar_alumnos RETURN SYS_REFCURSOR AS
+    v_alumnos SYS_REFCURSOR;
+BEGIN
+    OPEN v_alumnos FOR
+        SELECT * FROM VW_ALUMNOS WHERE estado = 'ACTIVO';
+    RETURN v_alumnos;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE registrar_docente(
+    p_correo IN VARCHAR2,
+    p_passwordcuenta IN VARCHAR2,
+    p_ceduladocente IN INTEGER,
+    p_nombredocente IN VARCHAR2
+) AS
+    v_codigoCuenta INTEGER;
+BEGIN
+    -- Insertar datos en la vista VW_DOCENTES
+    INSERT INTO VW_DOCENTES (correo, passwordcuenta, ceduladocente, nombredocente)
+    VALUES (p_correo, p_passwordcuenta, p_ceduladocente, p_nombredocente);
+
+    COMMIT;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE actualizarDocente(
+    p_idDocente IN INTEGER,
+    p_correo IN VARCHAR2,
+    p_passwordcuenta IN VARCHAR2,
+    p_nombredocente IN VARCHAR2
+) AS
+BEGIN
+    -- Actualizar la vista VW_DOCENTES
+    UPDATE VW_DOCENTES
+    SET correo = p_correo,
+        passwordcuenta = p_passwordcuenta,
+        nombredocente = p_nombredocente
+    WHERE idDocente = p_idDocente;
+END;
+/
+
+
+CREATE OR REPLACE FUNCTION obtener_docente(p_idDocente IN INTEGER) RETURN SYS_REFCURSOR AS
+    v_docente SYS_REFCURSOR;
+BEGIN
+    OPEN v_docente FOR
+        SELECT * FROM VW_DOCENTES WHERE idDocente = p_idDocente;
+    RETURN v_docente;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE eliminar_docente(p_idDocente IN INTEGER) AS
+BEGIN
+    -- Actualizar la tabla CUENTA para cambiar el estado a INACTIVO
+    UPDATE CUENTA
+    SET estado = 'INACTIVO'
+    WHERE codigocuenta = p_idDocente;
+
+    COMMIT;
+END;
+/
+
+CREATE OR REPLACE FUNCTION listar_docentes RETURN SYS_REFCURSOR AS
+    v_docentes SYS_REFCURSOR;
+BEGIN
+    OPEN v_docentes FOR
+        SELECT * FROM VW_DOCENTES WHERE estado = 'ACTIVO';
+    RETURN v_docentes;
+END;
+/
+
+
+
+
