@@ -826,6 +826,14 @@ VALUES (25, 25, 7, 0.3, TO_DATE('2024-04-01 08:00:00', 'YYYY-MM-DD HH24:MI:SS'),
         TO_DATE('2024-05-01 08:00:00', 'YYYY-MM-DD HH24:MI:SS'),
         TO_DATE('2024-05-01 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('01:50:00', 'HH24:MI:SS'),
         'ACTIVO', 'ALEATORIO', 'NO', 'SI', 'E_BD_T4', 'Normalización - Bases de datos I', 6);
+INSERT INTO examen (codigoexamen, tema_codigocontenido, cantpreguntas, pesoexamen, fecha_hora_creacion,
+                    fecha_hora_inicio, fecha_hora_fin, tiempo_limite, estado, tipo_seleccion_preguntas,
+                    mostrar_respuestas_correctas, mostrar_retroalimentacion, nombre, descripcion,
+                    cantpreguntasalumno)
+VALUES (26, 1, 6, 0.3, TO_DATE('2024-04-01 08:00:00', 'YYYY-MM-DD HH24:MI:SS'),
+        TO_DATE('2024-05-01 08:00:00', 'YYYY-MM-DD HH24:MI:SS'),
+        TO_DATE('2024-05-01 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('01:30:00', 'HH24:MI:SS'),
+        'ACTIVO', 'ALEATORIO', 'NO', 'SI', 'E_PA_T1', 'Capa de negocio - Programación avanzada', 5);
 
 --cursos principales
 -- Avanzada 13 y Bases de datos 1 15

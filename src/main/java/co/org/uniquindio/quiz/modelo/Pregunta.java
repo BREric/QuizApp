@@ -1,12 +1,11 @@
 package co.org.uniquindio.quiz.modelo;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -18,7 +17,6 @@ public class Pregunta {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "PREGUNTA_CODIGOPREGUNTA")
     private Pregunta preguntaCodigopregunta;
 
@@ -40,13 +38,11 @@ public class Pregunta {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "DOCENTE_USUARIO_CODIGOUSUARIO", nullable = false)
     private Docente docenteUsuarioCodigousuario;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "TEMA_CODIGOCONTENIDO", nullable = false)
     private Tema temaCodigocontenido;
 

@@ -7,14 +7,14 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
@@ -27,7 +27,7 @@ public class FiltroToken extends OncePerRequestFilter {
         // Configuracion de cabeceras para CORS
         response.addHeader("Access-Control-Allow-Origin" , "*");
         response.addHeader("Access-Control-Allow-Methods" , "GET, POST, PUT, DELETE, OPTIONS");
-        response.addHeader("Access-Control-Allow-Headers" , "Origin, Accepp, Content-Type, Authorization");
+        response.addHeader("Access-Control-Allow-Headers" , "Origin, Accept, Content-Type, Authorization");
 
         if (request.getMethod().equals("OPTIONS")) {
             response.setStatus(HttpServletResponse.SC_OK);
@@ -40,65 +40,52 @@ public class FiltroToken extends OncePerRequestFilter {
             boolean error = true;
 
             try {
-                //Si la petición es para la ruta /api/clientes se verifica que el token sea correcto y que el rol sea CLIENTE
+                // Validar el token y rol para diferentes rutas
                 if (requestURI.startsWith("/api/alumnos")) {
-                    if (token != null) {
-                        Jws<Claims> jws = jwtUtils.parseJwt(token);
-                        if(!jws.getPayload().get("rol").equals("ALUMNO")) {
-                            crearRespuestaError("No tiene permisos para acceder a este recurso",
-                                    HttpServletResponse.SC_FORBIDDEN, response);
-                        } else {
-                            error = false;
-                        }
-                    } else {
-                        crearRespuestaError("No tiene permisos para acceder a este recurso",
-                                HttpServletResponse.SC_FORBIDDEN, response);
-                    }
+                    error = !validarTokenYRol(token, "ALUMNO", response);
+                } else if (requestURI.startsWith("/api/docentes")) {
+                    error = !validarTokenYRol(token, "DOCENTE", response);
                 } else {
-                    error = false;
+                    error = false; // No hay restricciones en la ruta
                 }
 
-                //Si la petición es para la ruta /api/moderador se verifica que el token sea correcto y que el rol sea MODERADOR
-                if (requestURI.startsWith("/api/docentes")) {
-                    if (token != null) {
-                        Jws<Claims> jws = jwtUtils.parseJwt(token);
-                        if(!jws.getPayload().get("rol").equals("DOCENTE")) {
-                            crearRespuestaError("No tiene permisos para acceder a este recurso",
-                                    HttpServletResponse.SC_FORBIDDEN, response);
-                        } else {
-                            error = false;
-                        }
-                    } else {
-                        crearRespuestaError("No tiene permisos para acceder a este recurso",
-                                HttpServletResponse.SC_FORBIDDEN, response);
-                    }
-                } else {
-                    error = false;
-                }
-                //Agregar más validaciones para otros roles y recursos (rutas de la API) aquí
+                // Agregar más validaciones para otros roles y recursos (rutas de la API) aquí
             } catch (MalformedJwtException | SignatureException e) {
-                crearRespuestaError("El token es incorrecto",
-                        HttpServletResponse.SC_INTERNAL_SERVER_ERROR, response);
-
+                crearRespuestaError("El token es incorrecto", HttpServletResponse.SC_INTERNAL_SERVER_ERROR, response);
             } catch (ExpiredJwtException e) {
-                crearRespuestaError("El token está vencido",
-                        HttpServletResponse.SC_INTERNAL_SERVER_ERROR, response);
-
+                crearRespuestaError("El token está vencido", HttpServletResponse.SC_INTERNAL_SERVER_ERROR, response);
             } catch (Exception e) {
-                crearRespuestaError(e.getMessage(),
-                        HttpServletResponse.SC_INTERNAL_SERVER_ERROR, response);
+                crearRespuestaError(e.getMessage(), HttpServletResponse.SC_INTERNAL_SERVER_ERROR, response);
             }
+
             if (!error) {
                 filterChain.doFilter(request, response);
             }
         }
     }
+
+    private boolean validarTokenYRol(String token, String rolEsperado, HttpServletResponse response) throws IOException {
+        if (token != null) {
+            Jws<Claims> jws = jwtUtils.parseJwt(token);
+            if (!jws.getPayload().get("rol").equals(rolEsperado)) {
+                crearRespuestaError("No tiene permisos para acceder a este recurso", HttpServletResponse.SC_FORBIDDEN, response);
+                return false;
+            }
+            return true;
+        } else {
+            crearRespuestaError("No tiene permisos para acceder a este recurso", HttpServletResponse.SC_FORBIDDEN, response);
+            return false;
+        }
+    }
+
     private String getToken(HttpServletRequest req) {
         String header = req.getHeader("Authorization");
-        if(header != null && header.startsWith("Bearer "))
+        if(header != null && header.startsWith("Bearer ")) {
             return header.replace("Bearer ", "");
+        }
         return null;
     }
+
     private void crearRespuestaError(String mensaje, int codigoError, HttpServletResponse response) throws IOException {
         MensajeDTO<String> mensajeDTO = new MensajeDTO<>(true, mensaje);
         response.setContentType("application/json");

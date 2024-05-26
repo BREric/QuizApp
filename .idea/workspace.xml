@@ -4,14 +4,64 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="406a4845-4603-4dec-bda2-6d61dd8838e3" name="Changes" comment="nueva version4">
+    <list default="true" id="406a4845-4603-4dec-bda2-6d61dd8838e3" name="Changes" comment="se agregan algunas funciones">
+      <change afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Examan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.7/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.7/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/checksums/md5-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.7/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.7/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.7/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.7/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/scripts/pl.ddl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/scripts/pl.ddl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/scripts/vistas.ddl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/scripts/vistas.ddl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/co/org/uniquindio/quiz/modelo/Alumno.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/co/org/uniquindio/quiz/modelo/Alumno.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/co/org/uniquindio/quiz/modelo/Cuenta.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/co/org/uniquindio/quiz/modelo/Cuenta.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/co/org/uniquindio/quiz/modelo/Curso.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/co/org/uniquindio/quiz/modelo/Curso.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/co/org/uniquindio/quiz/modelo/Docente.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/co/org/uniquindio/quiz/modelo/Docente.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/co/org/uniquindio/quiz/modelo/Examen.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/co/org/uniquindio/quiz/modelo/Grupo.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/co/org/uniquindio/quiz/modelo/Grupo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/co/org/uniquindio/quiz/modelo/GrupoAlumno.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/co/org/uniquindio/quiz/modelo/GrupoAlumno.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/co/org/uniquindio/quiz/modelo/OpcionesPregunta.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/co/org/uniquindio/quiz/modelo/OpcionesPregunta.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/co/org/uniquindio/quiz/modelo/Pregunta.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/co/org/uniquindio/quiz/modelo/Pregunta.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/co/org/uniquindio/quiz/modelo/Tema.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/co/org/uniquindio/quiz/modelo/Tema.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/co/org/uniquindio/quiz/modelo/Unidad.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/co/org/uniquindio/quiz/modelo/Unidad.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/co/org/uniquindio/quiz/modelo/Usuario.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/co/org/uniquindio/quiz/modelo/Usuario.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/controladores/DocenteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/controladores/DocenteController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/dto/Docente/DocenteUpdateDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/dto/Docente/DocenteUpdateDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Alumno.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Alumno.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Cuenta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Cuenta.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Curso.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Curso.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Docente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Docente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Examen.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Grupo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Grupo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/GrupoAlumno.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/GrupoAlumno.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/GrupoAlumnoId.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/GrupoAlumnoId.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/OpcionesPregunta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/OpcionesPregunta.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/ParcialPresentado.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/ParcialPresentado.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Pregunta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Pregunta.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/PreguntaAlumno.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/PreguntaAlumno.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/PreguntaAlumnoId.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/PreguntaAlumnoId.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/PreguntaExaman.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/PreguntaExaman.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/PreguntaExamanId.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/PreguntaExamanId.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/RespuestaAlumno.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/RespuestaAlumno.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Tema.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Tema.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Unidad.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Unidad.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Usuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/modelo/Usuario.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/repositorios/ExamenRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/repositorios/ExamenRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/servicios/impl/DocenteServicioImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/servicios/impl/DocenteServicioImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/utils/FiltroToken.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/utils/FiltroToken.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
-    <list id="c51ad370-75fb-4735-bfce-105e3d5cd24c" name="Changes by jhona" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/resources/scripts/dataset.ddl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/scripts/dataset.ddl" afterDir="false" />
-    </list>
+    <list id="c51ad370-75fb-4735-bfce-105e3d5cd24c" name="Changes by jhona" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,9 +88,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="com.haulmont.jpb.JpaEntity" />
-        <option value="Class" />
         <option value="Record" />
+        <option value="Class" />
+        <option value="com.haulmont.jpb.JpaEntity" />
       </list>
     </option>
   </component>
@@ -93,6 +143,9 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.pluginManager",
     "spring.configuration.checksum": "df28d1b817269699575ab3cdacb526e6",
     "vue.rearranger.settings.migration": "true"
@@ -101,12 +154,15 @@
     "DatabaseDriversLRU": [
       "oracle"
     ],
+    "com.intellij.ide.scratch.LRUPopupBuilder$1/": [
+      "Oracle"
+    ],
     "com.intellij.ide.scratch.LRUPopupBuilder$1/SQL Dialect": [
       "Oracle"
     ]
   }
 }]]></component>
-  <component name="RunManager" selected="Spring Boot.DemoquizbuddyApplication (1)">
+  <component name="RunManager">
     <configuration name="DemoquizbuddyApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="com.example.demoquizbuddy.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="co.org.uniquindio.quiz.DemoquizbuddyApplication" />
@@ -200,7 +256,9 @@
       <workItem from="1716038451113" duration="21000" />
       <workItem from="1716296970882" duration="677000" />
       <workItem from="1716648926286" duration="7792000" />
-      <workItem from="1716724480646" duration="12322000" />
+      <workItem from="1716724480646" duration="12551000" />
+      <workItem from="1716748362357" duration="15157000" />
+      <workItem from="1716768739415" duration="5749000" />
     </task>
     <task id="LOCAL-00001" summary="nueva version">
       <option name="closed" value="true" />
@@ -250,7 +308,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715345161644</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="se agregan algunas funciones">
+      <option name="closed" value="true" />
+      <created>1716740353410</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1716740353410</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -272,7 +338,9 @@
     <MESSAGE value="nueva version2" />
     <MESSAGE value="nueva version3" />
     <MESSAGE value="nueva version4" />
-    <option name="LAST_COMMIT_MESSAGE" value="nueva version4" />
+    <MESSAGE value="update" />
+    <MESSAGE value="se agregan algunas funciones" />
+    <option name="LAST_COMMIT_MESSAGE" value="se agregan algunas funciones" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

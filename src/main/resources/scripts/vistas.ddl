@@ -162,22 +162,19 @@ FROM PREGUNTA p
 WHERE p.visibilidad = 'PUBLICA');
 
 CREATE OR REPLACE VIEW VW_INFORMACION_CURSO AS(
-SELECT c.codigocurso idCurso, c.nombre NombreCurso, c.descripcion DescripcionCurso, d.nombre NombreDocente
+SELECT c.codigocurso idCurso,g.codigogrupo, c.nombrecurso NombreCurso, d.nombredocente NombreProfesor
 FROM curso c
-         JOIN VW_DOCENTES d ON c.docente_usuario_codigousuario = d.CODIGOCUENTA);
+         JOIN
+         GRUPO G ON c.codigocurso = G.curso_codigocurso
+         JOIN
+         VW_DOCENTES d ON g.docente_usuario_codigousuario = d.idDocente);
 
 CREATE OR REPLACE VIEW VW_INFORMACION_GRUPO AS(
 SELECT g.codigogrupo idGrupo, g.curso_codigocurso idCurso, g.docente_usuario_codigousuario idDocente,
-       c.nombre NombreCurso, d.nombre NombreDocente
+       c.nombrecurso NombreCurso, d.nombredocente Nombreprofesor
 FROM grupo g
          JOIN curso c ON g.curso_codigocurso = c.codigocurso
-         JOIN VW_DOCENTES d ON g.docente_usuario_codigousuario = d.CODIGOCUENTA);
-
-CREATE OR REPLACE VIEW VW_INFORMACION_ESTUDIANTE AS(
-SELECT a.usuario_codigousuario idEstudiante, u.nombre NombreEstudiante, u.email EmailEstudiante, u.cedula CedulaEstudiante
-FROM VW_ALUMNOS a
-         JOIN usuario u ON a.CODIGOCUENTA = u.cuenta_codigocuenta);
-
+         JOIN VW_DOCENTES d ON g.docente_usuario_codigousuario = d.idDocente);
 
 CREATE OR REPLACE VIEW VW_EXAMENES_PENDIENTES AS(
 SELECT e.codigoexamen idExamen, e.nombre NombreExamen, e.fecha_hora_inicio HoraInicio, e.fecha_hora_fin HoraFin,
@@ -188,10 +185,11 @@ WHERE e.ESTADO = 'PENDIENTE');
 
 
 CREATE OR REPLACE VIEW VW_PROFESORES_POR_CURSO AS(
-SELECT c.codigocurso idCurso, c.nombre NombreCurso, c.descripcion DescripcionCurso,
-       d.nombre NombreDocente, d.email EmailDocente
+SELECT c.codigocurso idCurso, c.nombrecurso NombreCurso,
+       d.nombredocente Nombreprofesor, d.correo EmailDocente
 FROM curso c
-         JOIN VW_DOCENTES d ON c.docente_usuario_codigousuario = d.CODIGOCUENTA);
+         JOIN grupo g ON g.curso_codigocurso = c.codigocurso
+         JOIN VW_DOCENTES d ON g.docente_usuario_codigousuario = d.idDocente);
 
 CREATE OR REPLACE VIEW VW_EXAMENES_REALIZADOS AS(
 SELECT e.codigoexamen idExamen, e.nombre NombreExamen, e.fecha_hora_inicio HoraInicio, e.fecha_hora_fin HoraFin,
@@ -203,19 +201,33 @@ WHERE e.ESTADO = 'REALIZADO');
 
 CREATE OR REPLACE VIEW VW_GRUPOS_POR_CURSO AS(
 SELECT g.codigogrupo idGrupo, g.curso_codigocurso idCurso, g.docente_usuario_codigousuario idDocente,
-       c.nombre NombreCurso, d.nombre NombreDocente
+       c.nombrecurso NombreCurso, d.nombredocente NombreProfesor
 FROM grupo g
          JOIN curso c ON g.curso_codigocurso = c.codigocurso
-         JOIN VW_DOCENTES d ON g.docente_usuario_codigousuario = d.CODIGOCUENTA);
+         JOIN VW_DOCENTES d ON g.docente_usuario_codigousuario = d.iddocente);
 
 
-CREATE OR REPLACE VIEW VW_RESUMEN_EXAMENES_POR_GRUPO AS(
-SELECT g.codigogrupo idGrupo, g.curso_codigocurso idCurso, e.codigoexamen idExamen,
-       e.nombre NombreExamen, t.nombre Tema, e.estado EstadoExamen
-FROM grupo g
-         JOIN curso c ON g.curso_codigocurso = c.codigocurso
-         JOIN examen e ON g.curso_codigocurso = e.curso_codigocurso
-         JOIN tema t ON e.tema_codigocontenido = t.codigocontenido);
+CREATE OR REPLACE VIEW VW_RESUMEN_EXAMENES_POR_GRUPO AS
+SELECT
+    g.codigogrupo AS idGrupo,
+    g.curso_codigocurso AS idCurso,
+    e.codigoexamen AS idExamen,
+    e.nombre AS NombreExamen,
+    t.nombre AS Tema,
+    e.estado AS EstadoExamen,
+    e.fecha_hora_inicio AS HoraInicio,
+    e.fecha_hora_fin AS HoraFin
+FROM
+    grupo g
+        JOIN
+    curso c ON g.curso_codigocurso=c.codigocurso
+        JOIN
+    unidad u ON u.curso_codigocurso=c.codigocurso
+        JOIN
+    tema t ON t.unidad_codigounidad = u.codigounidad
+        JOIN
+    examen e ON t.codigocontenido = e.tema_codigocontenido
+;
 
 CREATE OR REPLACE VIEW VW_ESTUDIANTES_POR_GRUPO AS(
 SELECT g.codigogrupo idGrupo, g.curso_codigocurso idCurso,g.docente_usuario_codigousuario idDocente, a.idAlumno idEstudiante,
@@ -224,17 +236,3 @@ FROM grupo_alumno ga
         JOIN grupo g ON ga.grupo_codigogrupo = g.codigogrupo
         JOIN VW_ALUMNOS a ON ga.alumno_usuario_codigousuario = a.idAlumno
         JOIN usuario u ON a.idAlumno = u.cuenta_codigocuenta);
-
-CREATE OR REPLACE TRIGGER trg_actualizar_estado_examen
-BEFORE UPDATE ON examen
-                                                                                                                                                                                                               FOR EACH ROW
-BEGIN
-    IF SYSTIMESTAMP BETWEEN :new.fecha_hora_inicio AND :new.fecha_hora_fin THEN
-        :new.estado := 'EN CURSO';
-    ELSIF SYSTIMESTAMP > :new.fecha_hora_fin THEN
-        :new.estado := 'FINALIZADO';
-ELSE
-        :new.estado := 'PENDIENTE';
-END IF;
-END;
-/

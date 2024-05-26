@@ -1,12 +1,15 @@
 package co.org.uniquindio.quiz.modelo;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.Size;
+
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -17,8 +20,9 @@ public class Curso {
     @Column(name = "CODIGOCURSO", nullable = false)
     private Long id;
 
-    @Size(max = 10)
-    @Column(name = "NOMBRECURSO", length = 10)
+    @Size(max = 60)
+    @NotNull
+    @Column(name = "NOMBRECURSO", nullable = false, length = 60)
     private String nombrecurso;
 
 }

@@ -1,11 +1,9 @@
 package co.org.uniquindio.quiz.modelo;
 
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Getter
@@ -18,15 +16,13 @@ public class PreguntaExaman {
 
     @MapsId("preguntaCodigopregunta")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "PREGUNTA_CODIGOPREGUNTA", nullable = false)
     private Pregunta preguntaCodigopregunta;
 
     @MapsId("examenCodigoexamen")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "EXAMEN_CODIGOEXAMEN", nullable = false)
-    private Examen examenCodigoexamen;
+    private Examan examenCodigoexamen;
 
     @Column(name = "PORCENTAJE_PREGUNTA")
     private Double porcentajePregunta;

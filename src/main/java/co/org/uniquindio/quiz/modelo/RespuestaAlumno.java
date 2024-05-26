@@ -1,12 +1,11 @@
 package co.org.uniquindio.quiz.modelo;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -25,10 +24,10 @@ public class RespuestaAlumno {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumns({
-            @JoinColumn(name = "PA_PE_EXAMEN_CODIGOEXAMEN", referencedColumnName = "PE_EXAMEN_CODIGOEXAMEN", nullable = false),
-            @JoinColumn(name = "PA_PE_PREGUNTA_CODIGOPREGUNTA", referencedColumnName = "PE_PREGUNTA_CODIGOPREGUNTA", nullable = false)
+            @JoinColumn(name = "PA_PE_CODIGOEXAMEN", referencedColumnName = "PE_EXAMEN_CODIGOEXAMEN", nullable = false),
+            @JoinColumn(name = "PA_PE_CODIGOPREGUNTA", referencedColumnName = "PE_PREGUNTA_CODIGOPREGUNTA", nullable = false),
+            @JoinColumn(name = "PA_CODIGOPP", referencedColumnName = "PARCIAL_PRESENTADO_CODIGOPP", nullable = false)
     })
-    @OnDelete(action = OnDeleteAction.RESTRICT)
     private PreguntaAlumno preguntaAlumno;
 
 }

@@ -1,12 +1,10 @@
 package co.org.uniquindio.quiz.modelo;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Getter
@@ -20,13 +18,11 @@ public class ParcialPresentado {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "EXAMEN_CODIGOEXAMEN", nullable = false)
-    private Examen examenCodigoexamen;
+    private Examan examenCodigoexamen;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "ALUMNO_USUARIO_CODIGOUSUARIO", nullable = false)
     private Alumno alumnoUsuarioCodigousuario;
 
