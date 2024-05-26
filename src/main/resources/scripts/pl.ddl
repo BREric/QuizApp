@@ -195,6 +195,21 @@ BEGIN
 END;
 /
 
+
+
+CREATE OR REPLACE TRIGGER trg_actualizar_estado_examen
+    BEFORE UPDATE ON examen
+    FOR EACH ROW
+BEGIN
+    IF SYSTIMESTAMP BETWEEN :new.fecha_hora_inicio AND :new.fecha_hora_fin THEN
+        :new.estado := 'EN CURSO';
+    ELSIF SYSTIMESTAMP > :new.fecha_hora_fin THEN
+        :new.estado := 'FINALIZADO';
+    ELSE
+        :new.estado := 'PENDIENTE';
+    END IF;
+END;
+/
 --------------------------------PROCEDIMIENTOS----------------------------------------------------------
 
 

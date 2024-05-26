@@ -4,8 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="406a4845-4603-4dec-bda2-6d61dd8838e3" name="Changes" comment="nueva version4">
+    <list default="true" id="406a4845-4603-4dec-bda2-6d61dd8838e3" name="Changes" comment="se agregan algunas funciones">
+      <change afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/controladores/AlumnoController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/controladores/DocenteController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/controladores/PublicController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/dto/Docente/DocenteUpdateDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/servicios/impl/DocenteServicioImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/servicios/interfaces/DocenteServicio.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/repositorios/DocenteRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/repositorios/DocenteRepo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/scripts/pl.ddl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/scripts/pl.ddl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/scripts/vistas.ddl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/scripts/vistas.ddl" afterDir="false" />
     </list>
@@ -37,10 +46,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="com.haulmont.jpb.JpaEntity" />
-        <option value="Class" />
+        <option value="Interface" />
         <option value="Record" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -93,6 +102,9 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.pluginManager",
     "spring.configuration.checksum": "df28d1b817269699575ab3cdacb526e6",
     "vue.rearranger.settings.migration": "true"
@@ -200,7 +212,8 @@
       <workItem from="1716038451113" duration="21000" />
       <workItem from="1716296970882" duration="677000" />
       <workItem from="1716648926286" duration="7792000" />
-      <workItem from="1716724480646" duration="12322000" />
+      <workItem from="1716724480646" duration="12551000" />
+      <workItem from="1716748362357" duration="8761000" />
     </task>
     <task id="LOCAL-00001" summary="nueva version">
       <option name="closed" value="true" />
@@ -250,7 +263,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715345161644</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="se agregan algunas funciones">
+      <option name="closed" value="true" />
+      <created>1716740353410</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1716740353410</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -272,7 +293,9 @@
     <MESSAGE value="nueva version2" />
     <MESSAGE value="nueva version3" />
     <MESSAGE value="nueva version4" />
-    <option name="LAST_COMMIT_MESSAGE" value="nueva version4" />
+    <MESSAGE value="update" />
+    <MESSAGE value="se agregan algunas funciones" />
+    <option name="LAST_COMMIT_MESSAGE" value="se agregan algunas funciones" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
