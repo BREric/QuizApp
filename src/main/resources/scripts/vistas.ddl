@@ -166,12 +166,21 @@ FROM grupo g
          JOIN curso c ON g.curso_codigocurso = c.codigocurso
          JOIN VW_DOCENTES d ON g.docente_usuario_codigousuario = d.idDocente);
 
-CREATE OR REPLACE VIEW VW_EXAMENES_PENDIENTES AS(
-SELECT e.codigoexamen idExamen, e.nombre NombreExamen, e.fecha_hora_inicio HoraInicio, e.fecha_hora_fin HoraFin,
-       t.nombre Tema, e.estado EstadoExamen
-FROM examen e
-         JOIN tema t ON e.tema_codigocontenido = t.codigocontenido
-WHERE e.ESTADO = 'PENDIENTE');
+CREATE OR REPLACE VIEW VW_EXAMENES_PENDIENTES AS (
+     SELECT
+         e.codigoexamen AS idExamen,
+         e.nombre AS NombreExamen,
+         e.fecha_hora_inicio AS HoraInicio,
+         e.fecha_hora_fin AS HoraFin,
+         t.nombre AS Tema,
+         e.estado AS EstadoExamen
+     FROM
+         examen e
+             JOIN tema t ON e.tema_codigocontenido = t.codigocontenido
+     WHERE
+             e.estado = 'PENDIENTE' OR e.ESTADO = 'EN_CURSO' OR e.ESTADO = 'ACTIVO'
+         );
+
 
 
 CREATE OR REPLACE VIEW VW_PROFESORES_POR_CURSO AS(
@@ -219,10 +228,35 @@ FROM
     examen e ON t.codigocontenido = e.tema_codigocontenido
 ;
 
-CREATE OR REPLACE VIEW VW_ESTUDIANTES_POR_GRUPO AS(
-SELECT g.codigogrupo idGrupo, g.curso_codigocurso idCurso,g.docente_usuario_codigousuario idDocente, a.idAlumno idEstudiante,
-u.nombre NombreEstudiante, a.correo EmailEstudiante, u.cedula CedulaEstudiante
-FROM grupo_alumno ga
-        JOIN grupo g ON ga.grupo_codigogrupo = g.codigogrupo
-        JOIN VW_ALUMNOS a ON ga.alumno_usuario_codigousuario = a.idAlumno
-        JOIN usuario u ON a.idAlumno = u.cuenta_codigocuenta);
+CREATE OR REPLACE VIEW VW_ESTUDIANTES_POR_GRUPO AS (
+    SELECT
+       g.codigogrupo AS idGrupo,
+       g.curso_codigocurso AS idCurso,
+       g.docente_usuario_codigousuario AS idDocente,
+       a.idAlumno AS idEstudiante,
+       u.nombre AS NombreEstudiante,
+       a.correo AS EmailEstudiante,
+       u.cedula AS CedulaEstudiante
+    FROM
+       grupo_alumno ga
+           JOIN grupo g ON ga.grupo_codigogrupo = g.codigogrupo
+           JOIN VW_ALUMNOS a ON ga.alumno_usuario_codigousuario = a.idAlumno
+           JOIN usuario u ON a.idAlumno = u.cuenta_codigocuenta
+       );
+
+
+CREATE OR REPLACE TRIGGER trg_actualizar_alumnos
+    INSTEAD OF UPDATE ON VW_ALUMNOS
+    FOR EACH ROW
+BEGIN
+    -- Actualizar los datos en las tablas subyacentes
+    UPDATE CUENTA
+    SET email = :NEW.correo,
+        password = :NEW.passwordcuenta
+    WHERE CODIGOCUENTA = :OLD.idAlumno;
+
+    UPDATE USUARIO
+    SET nombre = :NEW.nombrealumno
+    WHERE cuenta_codigocuenta = :OLD.idAlumno;
+END;
+/

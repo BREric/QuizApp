@@ -379,7 +379,7 @@ END;
 --adicionar las preguntas al examen que falten (cambio de estado a finalizado) no olvidar considerar las preguntas compuestas
 
 -- Crear procedimiento para agregar un nuevo examen
-CREATE OR REPLACE PROCEDURE crear_examen (
+create or replace PROCEDURE crear_examen (
     p_nombre_examen IN VARCHAR2,
     p_descripcion IN VARCHAR2,
     p_tema_id IN INTEGER,
@@ -392,9 +392,15 @@ CREATE OR REPLACE PROCEDURE crear_examen (
     v_pregunta_id INTEGER;
 BEGIN
     -- Validar que el tema del examen exista
-    IF NOT EXISTS (SELECT 1 FROM tema WHERE codigocontenido = p_tema_id) THEN
-        RAISE_APPLICATION_ERROR(-20061, 'El tema del examen no existe.');
-    END IF;
+    BEGIN
+        SELECT 1
+        INTO v_examen_id
+        FROM tema
+        WHERE codigocontenido = p_tema_id;
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            RAISE_APPLICATION_ERROR(-20061, 'El tema del examen no existe.');
+    END;
 
     -- Insertar el examen
     INSERT INTO examen (nombre, descripcion, tema_codigocontenido, cantpreguntas, pesoexamen, fecha_hora_inicio, fecha_hora_fin, estado)
@@ -426,29 +432,39 @@ EXCEPTION
         ROLLBACK;
         RAISE_APPLICATION_ERROR(-20062, 'Error al crear el examen: ' || SQLERRM);
 END crear_examen;
-/
 
 --Adicionar las preguntas al examen del alumno:
 CREATE OR REPLACE PROCEDURE agregar_preguntas_examen(
     p_idExamen IN INTEGER,
     p_idAlumno IN INTEGER
 ) AS
+    v_count INTEGER;
 BEGIN
     -- Verificar que el examen exista
-    IF NOT EXISTS (SELECT 1 FROM examen WHERE codigoexamen = p_idExamen) THEN
+    SELECT COUNT(*)
+    INTO v_count
+    FROM examen
+    WHERE codigoexamen = p_idExamen;
+
+    IF v_count = 0 THEN
         RAISE_APPLICATION_ERROR(-20071, 'El examen especificado no existe.');
     END IF;
 
     -- Verificar que el alumno exista
-    IF NOT EXISTS (SELECT 1 FROM alumno WHERE usuario_codigousuario = p_idAlumno) THEN
+    SELECT COUNT(*)
+    INTO v_count
+    FROM alumno
+    WHERE usuario_codigousuario = p_idAlumno;
+
+    IF v_count = 0 THEN
         RAISE_APPLICATION_ERROR(-20072, 'El alumno especificado no existe.');
     END IF;
 
     -- Insertar preguntas del examen en la tabla pregunta_alumno para el alumno específico
     INSERT INTO pregunta_alumno (pe_examen_codigoexamen, pe_pregunta_codigopregunta, parcial_presentado_codigopp)
-    SELECT :p_idExamen, pe.pregunta_codigopregunta, NULL
+    SELECT pe.examen_codigoexamen, pe.pregunta_codigopregunta, NULL
     FROM pregunta_examen pe
-    WHERE pe.examen_codigoexamen = :p_idExamen;
+    WHERE pe.examen_codigoexamen = p_idExamen;
 
     DBMS_OUTPUT.PUT_LINE('Preguntas agregadas al examen exitosamente.');
 EXCEPTION
@@ -484,7 +500,7 @@ CREATE OR REPLACE FUNCTION validar_presentacion_examen(
     p_idExamen IN INTEGER,
     p_idAlumno IN INTEGER
 ) RETURN BOOLEAN AS
-    v_valido BOOLEAN;
+    v_valido NUMBER; -- Cambiado a tipo NUMBER
 BEGIN
     -- Verificar si el examen está pendiente y el alumno pertenece al grupo del examen
     SELECT COUNT(*)
@@ -494,42 +510,43 @@ BEGIN
     WHERE ep.idExamen = p_idExamen
       AND eg.idEstudiante = p_idAlumno;
 
-    RETURN v_valido;
+    -- Si v_valido es mayor que cero, significa que el alumno puede presentar el examen
+    IF v_valido = 1 THEN RETURN TRUE;
+    ELSE RETURN FALSE;
+    END IF;
 END;
 /
+
 --Validar la finalización del examen:
 CREATE OR REPLACE PROCEDURE validar_finalizacion_examen (
     p_idExamen IN INTEGER
 ) AS
     v_tiempo_transcurrido NUMBER;
+    v_duracion_maxima TIMESTAMP WITH TIME ZONE; -- Cambiada la variable a TIMESTAMP WITH TIME ZONE
 BEGIN
     -- Obtener el tiempo transcurrido desde el inicio del examen
-    SELECT (SYSDATE - fecha_hora_inicio) * 24 -- Multiplicar por 24 para obtener horas
+    SELECT EXTRACT(HOUR FROM (SYSTIMESTAMP - fecha_hora_inicio)) -- Extraer horas desde el inicio del examen
     INTO v_tiempo_transcurrido
     FROM examen
     WHERE codigoexamen = p_idExamen;
 
     -- Obtener la duración máxima del examen
-    DECLARE
-        v_duracion_maxima NUMBER;
-    BEGIN
-        SELECT tiempo_limite
-        INTO v_duracion_maxima
-        FROM examen
+    SELECT tiempo_limite
+    INTO v_duracion_maxima
+    FROM examen
+    WHERE codigoexamen = p_idExamen;
+
+    -- Verificar si el tiempo transcurrido supera la duración máxima del examen
+    IF v_tiempo_transcurrido > v_duracion_maxima THEN
+        -- Marcar el examen como finalizado
+        UPDATE examen
+        SET estado = 'FINALIZADO'
         WHERE codigoexamen = p_idExamen;
 
-        -- Verificar si el tiempo transcurrido supera la duración máxima del examen
-        IF v_tiempo_transcurrido > v_duracion_maxima THEN
-            -- Marcar el examen como finalizado
-            UPDATE examen
-            SET estado = 'FINALIZADO'
-            WHERE codigoexamen = p_idExamen;
-
-            DBMS_OUTPUT.PUT_LINE('El examen ha sido finalizado automáticamente.');
-        ELSE
-            DBMS_OUTPUT.PUT_LINE('El examen aún está en curso.');
-        END IF;
-    END;
+        DBMS_OUTPUT.PUT_LINE('El examen ha sido finalizado automáticamente.');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('El examen aún está en curso.');
+    END IF;
 END;
 /
 
