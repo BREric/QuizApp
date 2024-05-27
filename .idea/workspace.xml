@@ -4,8 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="406a4845-4603-4dec-bda2-6d61dd8838e3" name="Changes" comment="cambios generales 2" />
     <list id="c51ad370-75fb-4735-bfce-105e3d5cd24c" name="Changes by jhona" comment="" />
+=======
+    <list default="true" id="406a4845-4603-4dec-bda2-6d61dd8838e3" name="Changes" comment="se agregan algunas funciones">
+      <change afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/controladores/AlumnoController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/controladores/DocenteController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/controladores/PublicController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/dto/Docente/DocenteUpdateDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/servicios/impl/DocenteServicioImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/servicios/interfaces/DocenteServicio.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/repositorios/DocenteRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/org/uniquindio/quiz/repositorios/DocenteRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/scripts/pl.ddl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/scripts/pl.ddl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/scripts/vistas.ddl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/scripts/vistas.ddl" afterDir="false" />
+    </list>
+    <list id="c51ad370-75fb-4735-bfce-105e3d5cd24c" name="Changes by jhona" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/resources/scripts/dataset.ddl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/scripts/dataset.ddl" afterDir="false" />
+    </list>
+>>>>>>> 84258cb19c6f1f3f98a8a2e51aef6262180a0cc8
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,10 +51,17 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+<<<<<<< HEAD
         <option value="Interface" />
         <option value="Record" />
         <option value="Class" />
         <option value="com.haulmont.jpb.JpaEntity" />
+=======
+        <option value="com.haulmont.jpb.JpaEntity" />
+        <option value="Interface" />
+        <option value="Record" />
+        <option value="Class" />
+>>>>>>> 84258cb19c6f1f3f98a8a2e51aef6262180a0cc8
       </list>
     </option>
   </component>
@@ -201,8 +228,12 @@
       <workItem from="1716296970882" duration="677000" />
       <workItem from="1716648926286" duration="7792000" />
       <workItem from="1716724480646" duration="12551000" />
+<<<<<<< HEAD
       <workItem from="1716748362357" duration="15157000" />
       <workItem from="1716768739415" duration="6072000" />
+=======
+      <workItem from="1716748362357" duration="8761000" />
+>>>>>>> 84258cb19c6f1f3f98a8a2e51aef6262180a0cc8
     </task>
     <task id="LOCAL-00001" summary="nueva version">
       <option name="closed" value="true" />
@@ -260,6 +291,7 @@
       <option name="project" value="LOCAL" />
       <updated>1716740353410</updated>
     </task>
+<<<<<<< HEAD
     <task id="LOCAL-00008" summary="cambios generales 2">
       <option name="closed" value="true" />
       <created>1716776414253</created>
@@ -269,6 +301,9 @@
       <updated>1716776414253</updated>
     </task>
     <option name="localTasksCounter" value="9" />
+=======
+    <option name="localTasksCounter" value="8" />
+>>>>>>> 84258cb19c6f1f3f98a8a2e51aef6262180a0cc8
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -292,9 +327,13 @@
     <MESSAGE value="nueva version4" />
     <MESSAGE value="update" />
     <MESSAGE value="se agregan algunas funciones" />
+<<<<<<< HEAD
     <MESSAGE value="cambios generales" />
     <MESSAGE value="cambios generales 2" />
     <option name="LAST_COMMIT_MESSAGE" value="cambios generales 2" />
+=======
+    <option name="LAST_COMMIT_MESSAGE" value="se agregan algunas funciones" />
+>>>>>>> 84258cb19c6f1f3f98a8a2e51aef6262180a0cc8
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
