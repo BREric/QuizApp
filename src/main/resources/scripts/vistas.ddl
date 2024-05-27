@@ -33,13 +33,6 @@ SELECT codigocontenido idTema, unidad_codigounidad idUnidad, nombre NombreTema F
 CREATE OR REPLACE VIEW VW_UNIDAD AS(
 SELECT codigounidad idUnidad, curso_codigocurso idCurso FROM unidad);
 
-
-
-
-
-
-
-
 ----------------------------------------------------------------------------------------
 
 CREATE OR REPLACE VIEW VW_INFORMACION_EXAMEN AS(
@@ -88,8 +81,6 @@ CREATE OR REPLACE VIEW VW_INFO_RESPUESTA_ALUMNO AS (
         VW_ALUMNOS a ON pp.alumno_usuario_codigousuario = a.idAlumno
 );
 
-
-
 CREATE OR REPLACE VIEW VW_notas_estudiantes AS(
 SELECT pp.alumno_usuario_codigousuario idAlumno,
        pp.examen_codigoexamen idExamen, e.nombre NombreExamen,
@@ -101,7 +92,6 @@ SELECT pp.alumno_usuario_codigousuario idAlumno,
            END AS clasificacion_nota
 FROM parcial_presentado pp
          JOIN examen e ON pp.examen_codigoexamen = e.codigoexamen);
-
 
 CREATE OR REPLACE VIEW VW_promedio_nota_grupo_curso AS(
 SELECT g.codigogrupo idGrupo, g.curso_codigocurso idCurso,

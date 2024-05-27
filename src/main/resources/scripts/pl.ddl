@@ -1,51 +1,50 @@
 CREATE OR REPLACE TRIGGER trg_examen_no_update
-AFTER UPDATE ON examen
-                 FOR EACH ROW
+    AFTER UPDATE ON examen
+    FOR EACH ROW
 DECLARE
-v_count NUMBER;
+    v_count NUMBER;
 BEGIN
     -- Verificar si existen parciales presentados para el examen que se está intentando modificar
-SELECT COUNT(*)
-INTO v_count
-FROM parcial_presentado
-WHERE examen_codigoexamen = :OLD.codigoexamen;
+    SELECT COUNT(*)
+    INTO v_count
+    FROM parcial_presentado
+    WHERE examen_codigoexamen = :OLD.codigoexamen;
 
 -- Si se encuentra al menos un parcial presentado, generar un error
-IF v_count > 0 THEN
+    IF v_count > 0 THEN
         RAISE_APPLICATION_ERROR(-20001, 'No se puede modificar el examen porque ya ha sido presentado por algún alumno.');
-END IF;
+    END IF;
 END;
 /
 
 CREATE OR REPLACE TRIGGER trg_insertar_pregunt_cant
-AFTER INSERT ON examen
-FOR EACH ROW
+    AFTER INSERT ON examen
+    FOR EACH ROW
 DECLARE
-v_exam_cod INTEGER := :NEW.codigoexamen; -- Código del examen recién insertado
+    v_exam_cod INTEGER := :NEW.codigoexamen; -- Código del examen recién insertado
 BEGIN
-FOR i IN 1..:NEW.cantpreguntasalumno LOOP
-        -- Seleccionar de forma aleatoria una pregunta de la tabla pregunta
-        INSERT INTO pregunta_examen (pregunta_codigopregunta, examen_codigoexamen)
-SELECT codigopregunta, v_exam_cod
-FROM (
-         SELECT codigopregunta
-         FROM pregunta
-         ORDER BY DBMS_RANDOM.VALUE -- Ordenar aleatoriamente las preguntas
-     )
-WHERE ROWNUM = 1; -- Seleccionar solo una pregunta aleatoria
-END LOOP;
+    FOR i IN 1..:NEW.cantpreguntasalumno LOOP
+            -- Seleccionar de forma aleatoria una pregunta de la tabla pregunta
+            INSERT INTO pregunta_examen (pregunta_codigopregunta, examen_codigoexamen)
+            SELECT codigopregunta, v_exam_cod
+            FROM (
+                     SELECT codigopregunta
+                     FROM pregunta
+                     ORDER BY DBMS_RANDOM.VALUE -- Ordenar aleatoriamente las preguntas
+                 )
+            WHERE ROWNUM = 1; -- Seleccionar solo una pregunta aleatoria
+        END LOOP;
 END;
 /
 
 CREATE OR REPLACE TRIGGER trg_set_start_time
-BEFORE INSERT ON parcial_presentado
-FOR EACH ROW
+    BEFORE INSERT ON parcial_presentado
+    FOR EACH ROW
 BEGIN
     -- Establecer la fecha y hora de inicio del examen como la fecha y hora actual
     :NEW.fecha_hora_inicio := SYSDATE;
 END;
 /
-
 CREATE OR REPLACE TRIGGER calcular_puntaje_parcial
     BEFORE INSERT ON parcial_presentado
     FOR EACH ROW
@@ -56,27 +55,70 @@ DECLARE
     v_puntaje FLOAT;
 BEGIN
     -- Obtener el total de preguntas del examen
-    SELECT COUNT(*) INTO v_preguntas_totales
+    SELECT COUNT(*)
+    INTO v_preguntas_totales
     FROM pregunta_examen pe
     WHERE pe.examen_codigoexamen = :NEW.examen_codigoexamen;
 
     -- Obtener el número de respuestas correctas proporcionadas por el estudiante
-    SELECT COUNT(DISTINCT op.codigoopcion) INTO v_respuestas_correctas
+    SELECT COUNT(DISTINCT op.codigoopcion)
+    INTO v_respuestas_correctas
     FROM opciones_pregunta op
              JOIN pregunta_examen pe ON op.pregunta_codigopregunta = pe.pregunta_codigopregunta
+             JOIN respuesta_alumno ra ON op.codigoopcion = ra.id_respuesta
     WHERE pe.examen_codigoexamen = :NEW.examen_codigoexamen
-      AND op.codigoopcion IN (
-        SELECT po.codigoopcion
-        FROM opciones_pregunta po
-        WHERE po.p_a_a_usuario_codigousuario = :NEW.alumno_usuario_codigousuario
-          AND po.p_p_p_e_e_codigoexamen = :NEW.examen_codigoexamen
-    );
+      AND ra.pa_pe_codigoexamen = :NEW.examen_codigoexamen
+      AND ra.pa_codigopp = :NEW.alumno_usuario_codigousuario; -- Asegúrate de que esta columna es la correcta
 
     -- Obtener el número total de respuestas proporcionadas por el estudiante
-    SELECT COUNT(*) INTO v_respuestas_estudiante
-    FROM opciones_pregunta po
-    WHERE po.p_a_a_usuario_codigousuario = :NEW.alumno_usuario_codigousuario
-      AND po.p_p_p_e_e_codigoexamen = :NEW.examen_codigoexamen;
+    SELECT COUNT(*)
+    INTO v_respuestas_estudiante
+    FROM respuesta_alumno ra
+    WHERE ra.pa_pe_codigoexamen = :NEW.examen_codigoexamen
+      AND ra.pa_codigopp = :NEW.alumno_usuario_codigousuario; -- Asegúrate de que esta columna es la correcta
+
+    -- Calcular el puntaje obtenido en base a las respuestas correctas
+    IF v_respuestas_estudiante > 0 THEN
+        v_puntaje := (v_respuestas_correctas / v_respuestas_estudiante) * 100;
+    ELSE
+        v_puntaje := 0; -- En caso de que no haya respondido ninguna pregunta
+    END IF;
+
+    -- Asignar el puntaje calculado al campo puntaje_obtenido
+    :NEW.puntaje_obtenido := v_puntaje;
+END;
+/
+CREATE OR REPLACE TRIGGER calcular_puntaje_parcial
+    BEFORE INSERT ON parcial_presentado
+    FOR EACH ROW
+DECLARE
+    v_preguntas_totales INTEGER;
+    v_respuestas_correctas INTEGER;
+    v_respuestas_estudiante INTEGER;
+    v_puntaje FLOAT;
+BEGIN
+    -- Obtener el total de preguntas del examen
+    SELECT COUNT(*)
+    INTO v_preguntas_totales
+    FROM pregunta_examen pe
+    WHERE pe.examen_codigoexamen = :NEW.examen_codigoexamen;
+
+    -- Obtener el número de respuestas correctas proporcionadas por el estudiante
+    SELECT COUNT(DISTINCT op.codigoopcion)
+    INTO v_respuestas_correctas
+    FROM opciones_pregunta op
+             JOIN pregunta_examen pe ON op.pregunta_codigopregunta = pe.pregunta_codigopregunta
+             JOIN respuesta_alumno ra ON op.codigoopcion = ra.id_respuesta
+    WHERE pe.examen_codigoexamen = :NEW.examen_codigoexamen
+      AND ra.pa_pe_codigoexamen = :NEW.examen_codigoexamen
+      AND ra.pa_codigopp = :NEW.alumno_usuario_codigousuario; -- Asegúrate de que esta columna es la correcta
+
+    -- Obtener el número total de respuestas proporcionadas por el estudiante
+    SELECT COUNT(*)
+    INTO v_respuestas_estudiante
+    FROM respuesta_alumno ra
+    WHERE ra.pa_pe_codigoexamen = :NEW.examen_codigoexamen
+      AND ra.pa_codigopp = :NEW.alumno_usuario_codigousuario; -- Asegúrate de que esta columna es la correcta
 
     -- Calcular el puntaje obtenido en base a las respuestas correctas
     IF v_respuestas_estudiante > 0 THEN
@@ -90,27 +132,6 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE TRIGGER trg_validar_password
-    BEFORE INSERT OR UPDATE ON cuenta
-    FOR EACH ROW
-DECLARE
-    v_old_password cuenta.password%TYPE;
-BEGIN
-    IF :NEW.password IS NULL THEN
-        RAISE_APPLICATION_ERROR(-20001, 'La contraseña no puede estar vacía.');
-    END IF;
-
-    SELECT password INTO v_old_password
-    FROM cuenta
-    WHERE codigocuenta = :NEW.codigocuenta;
-
-    IF :NEW.password = v_old_password THEN
-        RAISE_APPLICATION_ERROR(-20002, 'La nueva contraseña no puede ser igual a la anterior.');
-    END IF;
-
-END;
-/
-
 CREATE OR REPLACE TRIGGER trg_validar_correo_y_cedula
     BEFORE INSERT OR UPDATE ON cuenta
     FOR EACH ROW
@@ -118,27 +139,32 @@ DECLARE
     v_correo_existente NUMBER;
     v_cedula_existente NUMBER;
 BEGIN
+    -- Validar que el correo electrónico no esté registrado en la tabla cuenta
     SELECT COUNT(*)
     INTO v_correo_existente
     FROM cuenta
-    WHERE email = :NEW.email;
+    WHERE email = :NEW.email AND codigocuenta != :NEW.codigocuenta;
 
     IF v_correo_existente > 0 THEN
         RAISE_APPLICATION_ERROR(-20003, 'El correo electrónico ya está registrado.');
     END IF;
 
-    SELECT COUNT(*)
-    INTO v_cedula_existente
-    FROM usuario
-    WHERE cedula = :NEW.cedula;
+    -- Validar que la cédula no esté registrada en la tabla usuario
+    -- Asumiendo que la cédula se pasa como un campo adicional en la tabla cuenta
+    IF :NEW.codigocuenta IS NOT NULL THEN
+        SELECT COUNT(*)
+        INTO v_cedula_existente
+        FROM usuario
+        WHERE cedula = (SELECT cedula FROM usuario WHERE cuenta_codigocuenta = :NEW.codigocuenta);
 
-    IF v_cedula_existente > 0 THEN
-        RAISE_APPLICATION_ERROR(-20004, 'La cédula ya está registrada.');
+        IF v_cedula_existente > 0 THEN
+            RAISE_APPLICATION_ERROR(-20004, 'La cédula ya está registrada.');
+        END IF;
     END IF;
 END;
 /
 
-c
+
 
 CREATE OR REPLACE TRIGGER trg_crear_alumno
     INSTEAD OF INSERT ON VW_ALUMNOS
@@ -223,16 +249,16 @@ CREATE OR REPLACE FUNCTION crear_alumno(
 ) RETURN INTEGER IS
 BEGIN
     -- Insertar en la vista VW_ALUMNOS
-    INSERT INTO VW_ALUMNOS (idAlumno, correo, passwordcuenta, cedulaalumno, nombrealumno)
-    VALUES (p_idAlumno, p_correo, p_passwordcuenta, p_cedulaalumno, p_nombrealumno);
+    INSERT INTO VW_ALUMNOS (idAlumno, correo, passwordcuenta, cedulaalumno, nombrealumno, ESTADO)
+    VALUES (p_idAlumno, p_correo, p_passwordcuenta, p_cedulaalumno, p_nombrealumno, 'ACTIVO');
 
     -- Devolver el código del alumno creado
     RETURN p_idAlumno;
 EXCEPTION
     WHEN OTHERS THEN
         -- Manejo de errores
-        RAISE_APPLICATION_ERROR(-20005, 'Error al crear el alumno: ' || SQLERRM);
-END;
+        RAISE_APPLICATION_ERROR(-20005, 'Error al crear el alumno: ');
+END crear_alumno;
 /
 
 CREATE OR REPLACE PROCEDURE actualizar_alumno(
@@ -348,6 +374,164 @@ BEGIN
 END;
 /
 
+---------------------------------------------------------------------------------
+--posibles metodos
+--adicionar las preguntas al examen que falten (cambio de estado a finalizado) no olvidar considerar las preguntas compuestas
+
+-- Crear procedimiento para agregar un nuevo examen
+CREATE OR REPLACE PROCEDURE crear_examen (
+    p_nombre_examen IN VARCHAR2,
+    p_descripcion IN VARCHAR2,
+    p_tema_id IN INTEGER,
+    p_cantidad_preguntas IN INTEGER,
+    p_peso_examen IN INTEGER, -- Ajusta el tipo de dato según corresponda en tu base de datos
+    p_fecha_inicio IN TIMESTAMP,
+    p_fecha_fin IN TIMESTAMP
+) AS
+    v_examen_id INTEGER;
+    v_pregunta_id INTEGER;
+BEGIN
+    -- Validar que el tema del examen exista
+    IF NOT EXISTS (SELECT 1 FROM tema WHERE codigocontenido = p_tema_id) THEN
+        RAISE_APPLICATION_ERROR(-20061, 'El tema del examen no existe.');
+    END IF;
+
+    -- Insertar el examen
+    INSERT INTO examen (nombre, descripcion, tema_codigocontenido, cantpreguntas, pesoexamen, fecha_hora_inicio, fecha_hora_fin, estado)
+    VALUES (p_nombre_examen, p_descripcion, p_tema_id, p_cantidad_preguntas, p_peso_examen, p_fecha_inicio, p_fecha_fin, 'PENDIENTE')
+    RETURNING codigoexamen INTO v_examen_id;
+
+    -- Lógica para seleccionar y agregar preguntas al examen
+    FOR i IN 1..p_cantidad_preguntas LOOP
+            -- Seleccionar una pregunta aleatoria del tema del examen
+            SELECT codigopregunta
+            INTO v_pregunta_id
+            FROM (
+                     SELECT codigopregunta
+                     FROM pregunta
+                     WHERE tema_codigocontenido = p_tema_id
+                     ORDER BY DBMS_RANDOM.VALUE
+                 )
+            WHERE ROWNUM = 1; -- Seleccionar solo una pregunta aleatoria
+
+            -- Agregar la pregunta al examen
+            INSERT INTO pregunta_examen (pregunta_codigopregunta, examen_codigoexamen)
+            VALUES (v_pregunta_id, v_examen_id);
+        END LOOP;
+
+    COMMIT;
+EXCEPTION
+    WHEN OTHERS THEN
+        -- Manejo de errores
+        ROLLBACK;
+        RAISE_APPLICATION_ERROR(-20062, 'Error al crear el examen: ' || SQLERRM);
+END crear_examen;
+/
+
+--Adicionar las preguntas al examen del alumno:
+CREATE OR REPLACE PROCEDURE agregar_preguntas_examen(
+    p_idExamen IN INTEGER,
+    p_idAlumno IN INTEGER
+) AS
+BEGIN
+    -- Verificar que el examen exista
+    IF NOT EXISTS (SELECT 1 FROM examen WHERE codigoexamen = p_idExamen) THEN
+        RAISE_APPLICATION_ERROR(-20071, 'El examen especificado no existe.');
+    END IF;
+
+    -- Verificar que el alumno exista
+    IF NOT EXISTS (SELECT 1 FROM alumno WHERE usuario_codigousuario = p_idAlumno) THEN
+        RAISE_APPLICATION_ERROR(-20072, 'El alumno especificado no existe.');
+    END IF;
+
+    -- Insertar preguntas del examen en la tabla pregunta_alumno para el alumno específico
+    INSERT INTO pregunta_alumno (pe_examen_codigoexamen, pe_pregunta_codigopregunta, parcial_presentado_codigopp)
+    SELECT :p_idExamen, pe.pregunta_codigopregunta, NULL
+    FROM pregunta_examen pe
+    WHERE pe.examen_codigoexamen = :p_idExamen;
+
+    DBMS_OUTPUT.PUT_LINE('Preguntas agregadas al examen exitosamente.');
+EXCEPTION
+    WHEN OTHERS THEN
+        -- Manejo de errores
+        RAISE_APPLICATION_ERROR(-20073, 'Error al agregar preguntas al examen: ' || SQLERRM);
+END;
+/
+
+--Calificar el examen una vez finalizado:
+CREATE OR REPLACE PROCEDURE calificar_examen(
+    p_idExamen IN INTEGER,
+    p_idAlumno IN INTEGER
+) AS
+    v_puntaje_total FLOAT;
+BEGIN
+    -- Calcular el puntaje total del examen
+    SELECT SUM(pa.puntaje_obtenido)
+    INTO v_puntaje_total
+    FROM parcial_presentado pa
+    WHERE pa.examen_codigoexamen = p_idExamen
+      AND pa.alumno_usuario_codigousuario = p_idAlumno;
+
+    -- Actualizar el registro en la tabla parcial_presentado con el puntaje total
+    UPDATE parcial_presentado
+    SET puntaje_obtenido = v_puntaje_total
+    WHERE examen_codigoexamen = p_idExamen
+      AND alumno_usuario_codigousuario = p_idAlumno;
+END;
+/
+--Validar que el alumno pueda presentar el examen:
+CREATE OR REPLACE FUNCTION validar_presentacion_examen(
+    p_idExamen IN INTEGER,
+    p_idAlumno IN INTEGER
+) RETURN BOOLEAN AS
+    v_valido BOOLEAN;
+BEGIN
+    -- Verificar si el examen está pendiente y el alumno pertenece al grupo del examen
+    SELECT COUNT(*)
+    INTO v_valido
+    FROM VW_EXAMENES_PENDIENTES ep
+             JOIN VW_ESTUDIANTES_POR_GRUPO eg ON ep.idExamen = p_idExamen
+    WHERE ep.idExamen = p_idExamen
+      AND eg.idEstudiante = p_idAlumno;
+
+    RETURN v_valido;
+END;
+/
+--Validar la finalización del examen:
+CREATE OR REPLACE PROCEDURE validar_finalizacion_examen (
+    p_idExamen IN INTEGER
+) AS
+    v_tiempo_transcurrido NUMBER;
+BEGIN
+    -- Obtener el tiempo transcurrido desde el inicio del examen
+    SELECT (SYSDATE - fecha_hora_inicio) * 24 -- Multiplicar por 24 para obtener horas
+    INTO v_tiempo_transcurrido
+    FROM examen
+    WHERE codigoexamen = p_idExamen;
+
+    -- Obtener la duración máxima del examen
+    DECLARE
+        v_duracion_maxima NUMBER;
+    BEGIN
+        SELECT tiempo_limite
+        INTO v_duracion_maxima
+        FROM examen
+        WHERE codigoexamen = p_idExamen;
+
+        -- Verificar si el tiempo transcurrido supera la duración máxima del examen
+        IF v_tiempo_transcurrido > v_duracion_maxima THEN
+            -- Marcar el examen como finalizado
+            UPDATE examen
+            SET estado = 'FINALIZADO'
+            WHERE codigoexamen = p_idExamen;
+
+            DBMS_OUTPUT.PUT_LINE('El examen ha sido finalizado automáticamente.');
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('El examen aún está en curso.');
+        END IF;
+    END;
+END;
+/
 
 
 
