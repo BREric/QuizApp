@@ -1,3 +1,21 @@
+CREATE OR REPLACE TRIGGER actualizar_puntaje_trigger
+    AFTER INSERT OR UPDATE ON respuesta_alumno
+    FOR EACH ROW
+DECLARE
+    nuevo_puntaje FLOAT;
+BEGIN
+    -- Recalcular el puntaje total para el parcial presentado
+    nuevo_puntaje := calcular_puntaje_obtenido(:NEW.pa_codigopp);
+
+    -- Actualizar el campo puntaje_obtenido en parcial_presentado
+    UPDATE parcial_presentado
+    SET puntaje_obtenido = nuevo_puntaje
+    WHERE codigopp = :NEW.pa_codigopp;
+END;
+/
+
+
+
 CREATE OR REPLACE TRIGGER trg_examen_no_update
     AFTER UPDATE ON examen
     FOR EACH ROW
@@ -365,12 +383,10 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE FUNCTION listar_docentes RETURN SYS_REFCURSOR AS
-    v_docentes SYS_REFCURSOR;
+CREATE OR REPLACE PROCEDURE listar_docentes (v_docentes OUT SYS_REFCURSOR) AS
 BEGIN
     OPEN v_docentes FOR
         SELECT * FROM VW_DOCENTES WHERE estado = 'ACTIVO';
-    RETURN v_docentes;
 END;
 /
 
@@ -549,6 +565,152 @@ BEGIN
     END IF;
 END;
 /
+
+CREATE OR REPLACE FUNCTION iniciar_sesion(p_correo IN VARCHAR2, p_password IN VARCHAR2) RETURN SYS_REFCURSOR AS
+    v_alumno SYS_REFCURSOR;
+    v_docente SYS_REFCURSOR;
+    v_count NUMBER;
+BEGIN
+    -- Intentar iniciar sesión como alumno
+    SELECT COUNT(*) INTO v_count
+    FROM VW_ALUMNOS a
+             JOIN CUENTA c ON a.idAlumno = c.codigocuenta
+    WHERE c.email = p_correo
+      AND c.password = p_password
+      AND c.estado = 'ACTIVO';
+
+    IF v_count > 0 THEN
+        OPEN v_alumno FOR
+            SELECT *
+            FROM VW_ALUMNOS a
+                     JOIN CUENTA c ON a.idAlumno = c.codigocuenta
+            WHERE c.email = p_correo
+              AND c.password = p_password
+              AND c.estado = 'ACTIVO';
+        RETURN v_alumno;
+    END IF;
+
+    -- Intentar iniciar sesión como docente si no se encontró como alumno
+    SELECT COUNT(*) INTO v_count
+    FROM VW_DOCENTES d
+             JOIN CUENTA c ON d.idDocente = c.codigocuenta
+    WHERE c.email = p_correo
+      AND c.password = p_password
+      AND c.estado = 'ACTIVO';
+
+    IF v_count > 0 THEN
+        OPEN v_docente FOR
+            SELECT *
+            FROM VW_DOCENTES d
+                     JOIN CUENTA c ON d.idDocente = c.codigocuenta
+            WHERE c.email = p_correo
+              AND c.password = p_password
+              AND c.estado = 'ACTIVO';
+        RETURN v_docente;
+    END IF;
+
+    -- Si no se encontró ni como alumno ni como docente, retornar NULL
+    RETURN NULL;
+END;
+/
+
+
+CREATE OR REPLACE FUNCTION iniciar_sesion_docente(p_correo IN VARCHAR2, p_password IN VARCHAR2) RETURN SYS_REFCURSOR AS
+    v_docente SYS_REFCURSOR;
+    v_count NUMBER;
+BEGIN
+    -- Intentar iniciar sesión como docente
+    SELECT COUNT(*) INTO v_count
+    FROM VW_DOCENTES d
+             JOIN CUENTA c ON d.idDocente = c.codigocuenta
+    WHERE c.email = p_correo
+      AND c.password = p_password
+      AND c.estado = 'ACTIVO';
+
+    IF v_count > 0 THEN
+        OPEN v_docente FOR
+            SELECT *
+            FROM VW_DOCENTES d
+                     JOIN CUENTA c ON d.idDocente = c.codigocuenta
+            WHERE c.email = p_correo
+              AND c.password = p_password
+              AND c.estado = 'ACTIVO';
+        RETURN v_docente;
+    END IF;
+
+    -- Si no se encontró como docente, retornar NULL
+    RETURN NULL;
+END;
+/
+
+
+CREATE OR REPLACE FUNCTION iniciar_sesion_alumno(p_correo IN VARCHAR2, p_password IN VARCHAR2) RETURN SYS_REFCURSOR AS
+    v_alumno SYS_REFCURSOR;
+    v_count NUMBER;
+BEGIN
+    -- Intentar iniciar sesión como alumno
+    SELECT COUNT(*) INTO v_count
+    FROM VW_ALUMNOS a
+             JOIN CUENTA c ON a.idAlumno = c.codigocuenta
+    WHERE c.email = p_correo
+      AND c.password = p_password
+      AND c.estado = 'ACTIVO';
+
+    IF v_count > 0 THEN
+        OPEN v_alumno FOR
+            SELECT *
+            FROM VW_ALUMNOS a
+                     JOIN CUENTA c ON a.idAlumno = c.codigocuenta
+            WHERE c.email = p_correo
+              AND c.password = p_password
+              AND c.estado = 'ACTIVO';
+        RETURN v_alumno;
+    END IF;
+
+    -- Si no se encontró como alumno, retornar NULL
+    RETURN NULL;
+END;
+/
+
+
+CREATE OR REPLACE FUNCTION calcular_puntaje_obtenido (codigopp IN INTEGER)
+    RETURN FLOAT IS
+    puntaje_total FLOAT := 0;
+BEGIN
+    SELECT COALESCE(SUM(puntaje_subpregunta), 0)
+    INTO puntaje_total
+    FROM (
+             -- Subconsulta para calcular el puntaje de las preguntas principales
+             SELECT SUM(op.puntaje * pe.porcentaje_pregunta / 100) AS puntaje_subpregunta
+             FROM respuesta_alumno ra
+                      JOIN opciones_pregunta op ON ra.pa_pe_codigopregunta = op.pregunta_codigopregunta
+                      JOIN pregunta_examen pe ON ra.pa_pe_codigoexamen = pe.examen_codigoexamen
+                 AND ra.pa_pe_codigopregunta = pe.pregunta_codigopregunta
+                      JOIN pregunta p ON pe.pregunta_codigopregunta = p.codigopregunta
+             WHERE ra.pa_codigopp = codigopp
+               AND p.pregunta_codigopregunta IS NULL -- Solo preguntas principales
+             GROUP BY ra.pa_codigopp
+
+             UNION ALL
+
+             -- Subconsulta recursiva para calcular el puntaje de las subpreguntas
+             SELECT COALESCE(SUM(sub.puntaje_subpregunta), 0)
+             FROM (
+                      SELECT SUM(op.puntaje * pe.porcentaje_pregunta / 100) AS puntaje_subpregunta
+                      FROM respuesta_alumno ra
+                               JOIN opciones_pregunta op ON ra.pa_pe_codigopregunta = op.pregunta_codigopregunta
+                               JOIN pregunta_examen pe ON ra.pa_pe_codigoexamen = pe.examen_codigoexamen
+                          AND ra.pa_pe_codigopregunta = pe.pregunta_codigopregunta
+                      WHERE ra.pa_codigopp = codigopp
+                        AND p.pregunta_codigopregunta = p.codigopregunta -- Subpreguntas relacionadas a preguntas principales
+                      GROUP BY ra.pa_codigopp
+                  ) sub
+         );
+
+    RETURN puntaje_total;
+END;
+/
+
 
 
 

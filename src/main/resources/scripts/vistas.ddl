@@ -51,35 +51,35 @@ FROM pregunta p
 
 
 CREATE OR REPLACE VIEW VW_INFO_RESPUESTA_ALUMNO AS (
-    SELECT
-        pa.pe_examen_codigoexamen AS idExamen,
-        pa.pe_pregunta_codigopregunta AS idPregunta,
-        pp.alumno_usuario_codigousuario AS idUsuario,
-        e.nombre AS nombreExamen,
-        p.descripcion AS pregunta,
-        po.respuesta AS respuesta,
-        p.tipo_pregunta AS TipoPregunta,
-        pp.puntaje_obtenido AS Nota,
-        CASE
-            WHEN pp.puntaje_obtenido = 5 THEN 'Perfecto'
-            WHEN pp.puntaje_obtenido >= 4 THEN 'Excelente'
-            WHEN pp.puntaje_obtenido >= 3 THEN 'Aceptable'
-            ELSE 'Perdió'
-        END AS clasificacion_nota
-    FROM
-        examen e
-    JOIN
-        parcial_presentado pp ON e.codigoexamen = pp.examen_codigoexamen
-    JOIN
-        pregunta_alumno pa ON pa.pe_examen_codigoexamen = pp.examen_codigoexamen
-                          AND pa.parcial_presentado_codigopp = pp.codigopp
-    JOIN
-        pregunta p ON pa.pe_pregunta_codigopregunta = p.codigopregunta
-    LEFT JOIN
-        opciones_pregunta po ON pa.pe_pregunta_codigopregunta = po.pregunta_codigopregunta
-    JOIN
-        VW_ALUMNOS a ON pp.alumno_usuario_codigousuario = a.idAlumno
-);
+       SELECT
+           pa.pe_examen_codigoexamen AS idExamen,
+           pa.pe_pregunta_codigopregunta AS idPregunta,
+           pp.alumno_usuario_codigousuario AS idUsuario,
+           e.nombre AS nombreExamen,
+           p.descripcion AS pregunta,
+           po.respuesta AS respuesta,
+           p.tipo_pregunta AS TipoPregunta,
+           pp.puntaje_obtenido AS Nota,
+           CASE
+               WHEN pp.puntaje_obtenido = 5 THEN 'Perfecto'
+               WHEN pp.puntaje_obtenido >= 4 THEN 'Excelente'
+               WHEN pp.puntaje_obtenido >= 3 THEN 'Aceptable'
+               ELSE 'Perdió'
+               END AS clasificacion_nota
+       FROM
+           examen e
+               JOIN
+           parcial_presentado pp ON e.codigoexamen = pp.examen_codigoexamen
+               JOIN
+           pregunta_alumno pa ON pa.pe_examen_codigoexamen = pp.examen_codigoexamen
+               AND pa.parcial_presentado_codigopp = pp.codigopp
+               JOIN
+           pregunta p ON pa.pe_pregunta_codigopregunta = p.codigopregunta
+               LEFT JOIN
+           opciones_pregunta po ON pa.pe_pregunta_codigopregunta = po.pregunta_codigopregunta
+               JOIN
+           VW_ALUMNOS a ON pp.alumno_usuario_codigousuario = a.idAlumno
+           );
 
 CREATE OR REPLACE VIEW VW_notas_estudiantes AS(
 SELECT pp.alumno_usuario_codigousuario idAlumno,
@@ -247,16 +247,16 @@ CREATE OR REPLACE VIEW VW_ESTUDIANTES_POR_GRUPO AS (
 
 CREATE OR REPLACE TRIGGER trg_actualizar_alumnos
     INSTEAD OF UPDATE ON VW_ALUMNOS
-    FOR EACH ROW
+                                 FOR EACH ROW
 BEGIN
     -- Actualizar los datos en las tablas subyacentes
-    UPDATE CUENTA
-    SET email = :NEW.correo,
-        password = :NEW.passwordcuenta
-    WHERE CODIGOCUENTA = :OLD.idAlumno;
+UPDATE CUENTA
+SET email = :NEW.correo,
+    password = :NEW.passwordcuenta
+WHERE CODIGOCUENTA = :OLD.idAlumno;
 
-    UPDATE USUARIO
-    SET nombre = :NEW.nombrealumno
-    WHERE cuenta_codigocuenta = :OLD.idAlumno;
+UPDATE USUARIO
+SET nombre = :NEW.nombrealumno
+WHERE cuenta_codigocuenta = :OLD.idAlumno;
 END;
 /
