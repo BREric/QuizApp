@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.example.demoquizbuddy.main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.example.demoquizbuddy.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/demoquizbuddy.iml" filepath="$PROJECT_DIR$/.idea/modules/demoquizbuddy.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/demoquizbuddy.main.iml" filepath="$PROJECT_DIR$/.idea/modules/demoquizbuddy.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/demoquizbuddy.test.iml" filepath="$PROJECT_DIR$/.idea/modules/demoquizbuddy.test.iml" />
     </modules>
   </component>
 </project>
