@@ -130,7 +130,7 @@ CREATE OR REPLACE VIEW VW_DOCENTES AS(
            C.estado estado
     FROM CUENTA c JOIN USUARIO u
            ON c.codigoCuenta=u.cuenta_codigocuenta
-           JOIN DOCENTE D on d.usuario_codigousuario=u.cuenta_codigocuenta);
+           JOIN DOCENTE D on d.usuario_cuenta_codigo=u.cuenta_codigocuenta);
 
 
 
@@ -143,7 +143,7 @@ CREATE OR REPLACE VIEW VW_ALUMNOS AS(
         C.estado estado
     FROM CUENTA c JOIN USUARIO u
        ON c.codigoCuenta=u.cuenta_codigocuenta
-       JOIN ALUMNO a on a.usuario_codigousuario=u.cuenta_codigocuenta);
+       JOIN ALUMNO a on a.usuario_cuenta_codigo=u.cuenta_codigocuenta);
 
 
 CREATE OR REPLACE VIEW VW_PREGUNTAS_PUBLICAS AS(

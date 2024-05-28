@@ -14,13 +14,12 @@ import javax.validation.constraints.NotNull;
 @Table(name = "DOCENTE")
 public class Docente {
     @Id
-    @Column(name = "USUARIO_CODIGOUSUARIO", nullable = false)
+    @Column(name = "USUARIO_CODIGO", nullable = false)
     private Long id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "USUARIO_CUENTA_CODIGO", nullable = false)
     private Usuario usuarioCuentaCodigo;
-
 }

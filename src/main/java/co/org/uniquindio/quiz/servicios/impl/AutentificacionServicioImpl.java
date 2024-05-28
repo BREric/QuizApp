@@ -2,26 +2,25 @@ package co.org.uniquindio.quiz.servicios.impl;
 
 import co.org.uniquindio.quiz.dto.TokenDTO;
 import co.org.uniquindio.quiz.dto.cuenta.SesionDTO;
+import co.org.uniquindio.quiz.modelo.Alumno;
+import co.org.uniquindio.quiz.modelo.Cuenta;
 import co.org.uniquindio.quiz.repositorios.CuentaRepo;
 import co.org.uniquindio.quiz.servicios.interfaces.AutentificacionServicio;
 import co.org.uniquindio.quiz.utils.JWTUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class AutentificacionServicioImpl implements AutentificacionServicio {
 
-    @Autowired
     private final CuentaRepo cuentaRepository;
-
-    @Autowired
     private final JWTUtils jwtUtils;
 
     @Override
@@ -34,24 +33,25 @@ public class AutentificacionServicioImpl implements AutentificacionServicio {
     }
 
     private TokenDTO iniciarSesionAlumno(SesionDTO sesionDTO) throws Exception {
-        Map<String, Object> result = cuentaRepository.iniciarSesionAlumno(sesionDTO.email(), sesionDTO.password());
-        if (result != null && !result.isEmpty()) {
+        Cuenta cuenta = (Cuenta) cuentaRepository.iniciar_sesion_alumno_proc(sesionDTO.email(), sesionDTO.password());
+        if (cuenta != null) {
             Map<String, Object> claims = new HashMap<>();
             claims.put("rol", "ALUMNO");
-            claims.put("nombre", result.get("nombre"));
-            claims.put("codigo", result.get("codigo"));
+            claims.put("nombre", cuenta.getEmail());
+            claims.put("codigo", cuenta.getId());
             return new TokenDTO(jwtUtils.generarToken(sesionDTO.email(), claims));
         }
         return null;
     }
 
     private TokenDTO iniciarSesionDocente(SesionDTO sesionDTO) throws Exception {
-        Map<String, Object> result = cuentaRepository.iniciarSesionDocente(sesionDTO.email(), sesionDTO.password());
-        if (result != null && !result.isEmpty()) {
+        Alumno a = new Alumno();
+        Cuenta cuenta = (Cuenta) cuentaRepository.iniciar_sesion_docente_proc(sesionDTO.email(), sesionDTO.password());
+        if (cuenta != null) {
             Map<String, Object> claims = new HashMap<>();
             claims.put("rol", "DOCENTE");
-            claims.put("nombre", result.get("nombre"));
-            claims.put("codigo", result.get("codigo"));
+            claims.put("nombre", cuenta.getEmail());
+            claims.put("codigo", cuenta.getId());
             return new TokenDTO(jwtUtils.generarToken(sesionDTO.email(), claims));
         }
         return null;

@@ -10,7 +10,7 @@
 -- predefined type, no DDL - XMLTYPE
 
 CREATE TABLE alumno (
-                        usuario_codigousuario INTEGER NOT NULL,
+                       usuario_codigousuario INTEGER NOT NULL,
                         usuario_cuenta_codigo INTEGER NOT NULL
 );
 

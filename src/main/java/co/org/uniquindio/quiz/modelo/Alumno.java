@@ -18,7 +18,7 @@ public class Alumno {
     private Long id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "USUARIO_CUENTA_CODIGO", nullable = false)
     private Usuario usuarioCuentaCodigo;

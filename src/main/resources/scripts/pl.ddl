@@ -12,7 +12,6 @@ BEGIN
     SET puntaje_obtenido = nuevo_puntaje
     WHERE codigopp = :NEW.pa_codigopp;
 END;
-/
 
 
 
@@ -564,111 +563,38 @@ BEGIN
         DBMS_OUTPUT.PUT_LINE('El examen aún está en curso.');
     END IF;
 END;
-/
 
-CREATE OR REPLACE FUNCTION iniciar_sesion(p_correo IN VARCHAR2, p_password IN VARCHAR2) RETURN SYS_REFCURSOR AS
-    v_alumno SYS_REFCURSOR;
-    v_docente SYS_REFCURSOR;
-    v_count NUMBER;
+
+CREATE OR REPLACE PROCEDURE iniciar_sesion_docente_proc (
+    p_email IN VARCHAR2,
+    p_password IN VARCHAR2,
+    v_docente OUT SYS_REFCURSOR
+) AS
 BEGIN
-    -- Intentar iniciar sesión como alumno
-    SELECT COUNT(*) INTO v_count
-    FROM VW_ALUMNOS a
-             JOIN CUENTA c ON a.idAlumno = c.codigocuenta
-    WHERE c.email = p_correo
-      AND c.password = p_password
-      AND c.estado = 'ACTIVO';
-
-    IF v_count > 0 THEN
-        OPEN v_alumno FOR
-            SELECT *
-            FROM VW_ALUMNOS a
-                     JOIN CUENTA c ON a.idAlumno = c.codigocuenta
-            WHERE c.email = p_correo
-              AND c.password = p_password
-              AND c.estado = 'ACTIVO';
-        RETURN v_alumno;
-    END IF;
-
-    -- Intentar iniciar sesión como docente si no se encontró como alumno
-    SELECT COUNT(*) INTO v_count
-    FROM VW_DOCENTES d
-             JOIN CUENTA c ON d.idDocente = c.codigocuenta
-    WHERE c.email = p_correo
-      AND c.password = p_password
-      AND c.estado = 'ACTIVO';
-
-    IF v_count > 0 THEN
-        OPEN v_docente FOR
-            SELECT *
-            FROM VW_DOCENTES d
-                     JOIN CUENTA c ON d.idDocente = c.codigocuenta
-            WHERE c.email = p_correo
-              AND c.password = p_password
-              AND c.estado = 'ACTIVO';
-        RETURN v_docente;
-    END IF;
-
-    -- Si no se encontró ni como alumno ni como docente, retornar NULL
-    RETURN NULL;
+    OPEN v_docente FOR
+        SELECT d.IDDOCENTE id, c.email correo, d.PASSWORDCUENTA contra
+        FROM VW_DOCENTES d
+                 JOIN CUENTA c ON d.IDDOCENTE = c.codigocuenta
+        WHERE c.email = p_email
+          AND c.password = p_password
+          AND c.estado = 'ACTIVO';
 END;
 /
 
 
-CREATE OR REPLACE FUNCTION iniciar_sesion_docente(p_correo IN VARCHAR2, p_password IN VARCHAR2) RETURN SYS_REFCURSOR AS
-    v_docente SYS_REFCURSOR;
-    v_count NUMBER;
+CREATE OR REPLACE PROCEDURE iniciar_sesion_alumno_proc (
+    p_email IN VARCHAR2,
+    p_password IN VARCHAR2,
+    v_alumno OUT SYS_REFCURSOR
+) AS
 BEGIN
-    -- Intentar iniciar sesión como docente
-    SELECT COUNT(*) INTO v_count
-    FROM VW_DOCENTES d
-             JOIN CUENTA c ON d.idDocente = c.codigocuenta
-    WHERE c.email = p_correo
-      AND c.password = p_password
-      AND c.estado = 'ACTIVO';
-
-    IF v_count > 0 THEN
-        OPEN v_docente FOR
-            SELECT *
-            FROM VW_DOCENTES d
-                     JOIN CUENTA c ON d.idDocente = c.codigocuenta
-            WHERE c.email = p_correo
-              AND c.password = p_password
-              AND c.estado = 'ACTIVO';
-        RETURN v_docente;
-    END IF;
-
-    -- Si no se encontró como docente, retornar NULL
-    RETURN NULL;
-END;
-/
-
-
-CREATE OR REPLACE FUNCTION iniciar_sesion_alumno(p_correo IN VARCHAR2, p_password IN VARCHAR2) RETURN SYS_REFCURSOR AS
-    v_alumno SYS_REFCURSOR;
-    v_count NUMBER;
-BEGIN
-    -- Intentar iniciar sesión como alumno
-    SELECT COUNT(*) INTO v_count
-    FROM VW_ALUMNOS a
-             JOIN CUENTA c ON a.idAlumno = c.codigocuenta
-    WHERE c.email = p_correo
-      AND c.password = p_password
-      AND c.estado = 'ACTIVO';
-
-    IF v_count > 0 THEN
-        OPEN v_alumno FOR
-            SELECT *
-            FROM VW_ALUMNOS a
-                     JOIN CUENTA c ON a.idAlumno = c.codigocuenta
-            WHERE c.email = p_correo
-              AND c.password = p_password
-              AND c.estado = 'ACTIVO';
-        RETURN v_alumno;
-    END IF;
-
-    -- Si no se encontró como alumno, retornar NULL
-    RETURN NULL;
+    OPEN v_alumno FOR
+        SELECT a.idAlumno id, c.email correo, a.PASSWORDCUENTA contra
+        FROM VW_ALUMNOS a
+                 JOIN CUENTA c ON a.idAlumno = c.codigocuenta
+        WHERE c.email = p_email
+          AND c.password = p_password
+          AND c.estado = 'ACTIVO';
 END;
 /
 
@@ -710,7 +636,16 @@ BEGIN
     RETURN puntaje_total;
 END;
 /
-
+--Para añadirle el codigo del examen de manera automatica
+CREATE OR REPLACE TRIGGER trg_codigoexamen
+    BEFORE INSERT ON examen
+    FOR EACH ROW
+BEGIN
+    IF :NEW.codigoexamen IS NULL THEN
+        :NEW.codigoexamen := seq_codigoexamen.NEXTVAL;
+    END IF;
+END;
+/
 
 
 

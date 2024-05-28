@@ -1,13 +1,9 @@
 package co.org.uniquindio.quiz.modelo;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -17,6 +13,7 @@ import javax.validation.constraints.Size;
 @Table(name = "CUENTA")
 public class Cuenta {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CODIGOCUENTA", nullable = false)
     private Long id;
 
@@ -34,5 +31,4 @@ public class Cuenta {
     @NotNull
     @Column(name = "ESTADO", nullable = false, length = 50)
     private String estado;
-
 }
